@@ -4,6 +4,8 @@
 logs
 *.log
 
+#vim swap files
+*.swp
 # Runtime data
 pids
 *.pid
