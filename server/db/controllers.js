@@ -1,6 +1,7 @@
 var Models = require('./models');
 var Comment = Models.Comment;
 var User = Models.User;
+var Playlist = Models.Playlist;
 var request = require('request');
 
 module.exports = {
@@ -36,7 +37,7 @@ module.exports = {
 
     updateUser: function(req, res) {
       var val = req.body.value;
-      User.findByIdAndUpdate(req.body._id, { 
+      User.findByIdAndUpdate(req.body._id, {
         [req.body.method]: { [req.body.property]: val }
       }).then(function(resp) {
         res.json(resp);
@@ -44,22 +45,42 @@ module.exports = {
     }
   },
 
+  playlist: {
+    getPlaylist: function(req, res) {
+    },
+
+    createPlaylist: function(req, res) {
+      var playlist = req.body;
+      console.log("playlist:", playlist);
+      new Playlist(playlist).save(function(err) {
+        if (err) throw err;
+        else {
+          res.sendStatus(201);
+        }
+      })
+    },
+
+    updatePlaylist: function(req, res) {
+
+    }
+  },
+
   lat: function(req, res) {
-    var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' + req.query.lat + '&lon=' + req.query.lon + '&appid=' + process.env.OWM_KEY;
+    var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' + req.query.lat + '&lon=' + req.query.lon + '&appid=' + "3b12ada7c114c8c07bea47797cf3ab0a";
     request(url, function(err, response, body) {
       if (err) { throw err; }
       res.send(response);
     });
   },
   city: function (req, res) {
-    var url = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' + req.query.city + '&appid=' + process.env.OWM_KEY;
+    var url = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' + req.query.city + '&appid=' + '3b12ada7c114c8c07bea47797cf3ab0a';
     request(url, function(err, response, body) {
       if (err) { throw err; }
       res.send(response);
     });
   },
   keys: function(req, res) {
-    res.send(process.env.YOUTUBE_KEY);
+    res.send('AIzaSyBlZwWqIXAU8clA4CZOjo94dTe5HJol1ag');
   }
 
 };

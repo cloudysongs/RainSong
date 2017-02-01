@@ -20,7 +20,7 @@ angular.module('rain.services', [])
       }).then(function(resp) {
         return JSON.parse(resp.data.body);
       });
-    }  
+    }
   };
 }])
 
@@ -46,7 +46,6 @@ angular.module('rain.services', [])
         method: 'GET',
         url: '/api/keys'
       });
-
       return $q.all([youtubeKey]).then(function(arr) {
         return $http({
           method: 'GET',
@@ -70,7 +69,7 @@ angular.module('rain.services', [])
     getWeatherByCity: function(city) {
       return $http({
         method: 'GET',
-        url: 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' + city + '&appid=07a96fec5d332a2798fa83aba696d9f2'
+        url: 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' + city + '&appid=3b12ada7c114c8c07bea47797cf3ab0a'
       }).then(function(resp) {
         return resp.data;
       });
@@ -88,7 +87,7 @@ angular.module('rain.services', [])
         return resp.data;
       });
     },
-    
+
     postComments: function(data) {
       return $http({
         method: 'POST',
@@ -106,7 +105,6 @@ angular.module('rain.services', [])
     getUser: function(userName) {
       return $http({
         method: 'GET',
-
         url: '/api/users',
         params: userName
       }).then(function(resp) {
@@ -134,5 +132,50 @@ angular.module('rain.services', [])
       });
     }
   };
+}])
+
+.factory('Playlists', ['$http', function($http) {
+  return {
+    getPlaylist: function(playlist) {
+      return $http({
+        method: 'GET',
+        url: '/api/playlists',
+        params: playlist
+      }).then(function(resp) {
+        return resp.data;
+      });
+    },
+
+    createPlaylist: function(playlist) {
+      console.log('playlist:', playlist);
+      return $http({
+        method: 'POST',
+        url: '/api/playlists',
+        data: playlist
+      }).then(function(resp) {
+        return resp;
+      });
+    },
+
+    addSong: function(song) {
+      return $http({
+        method: 'PUT',
+        url: '/api/playlists',
+        data: song
+      }).then(function(resp) {
+        return resp;
+      });
+    },
+
+    deleteSong: function(song) {
+      return $http({
+        method: 'DELETE',
+        url: '/api/playlists',
+        data: song
+      }).then(function(resp) {
+        return resp;
+      });
+    }
+  }
 }]);
 
