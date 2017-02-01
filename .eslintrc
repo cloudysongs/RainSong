@@ -1,0 +1,7 @@
+{
+  "extends": "angular",
+  "rules": {
+    "angular/controller-name": 0,
+    "angular/controller-as": 0
+  }
+}
