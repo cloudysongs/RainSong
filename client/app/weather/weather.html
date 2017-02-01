@@ -5,7 +5,7 @@
   </div>
 
   <div class="col-xs-6">
-    <div class="row">
+    <div class="row-fluid">
       <form ng-submit="logIn()" class="right" style="{{ logInButton }}">
         <input ng-model="username" placeholder="Username" minlength="4" required />
         <input type="password" ng-model="password" placeholder="Password" minlength="6" required />
@@ -13,7 +13,7 @@
       </form>
     </div>
 
-    <div class="row">
+    <div class="row-fluid">
       <button ng-click="logOut()" class="right" style="{{ logOutButton }}">Log Out</button>
       <span class="right" id="currentUser">{{ currentUser }}</span>
       <span class="right">{{ error }}</span>
@@ -21,70 +21,72 @@
   </div>
 </div>
 
-<div ng-init="getWeatherGeoLocation()" class="row" style="height: {{ height }}px">
-  <iframe class="col-xs-9" id="video" src="{{ data }}" allowfullscreen="true"></iframe>
-
-  <div id="playList" class="col-xs-3">
-    <button ng-click="display('list')" id="saved" style="{{ save }}">Saved playlists</button>
-    <button ng-click="display('store')" id="save" style="{{ save }}">New playlist</button>
-    <form style="{{ store }}" ng-Submit="newPlaylist()">
-      <input ng-model="playlistName" id="listTitle" placeholder="Name the playlist!" maxlength="12" required></input>
-      <button id="check">&#10003;</button>
-    </form><br>
-
-    <div id="savedList" style="{{ list }}">
-      <div ng-repeat="item in savedPlaylists track by $index">
-        <div id="select">
-          <span ng-click="appendList(item)">{{ item }}</span>
+<div ng-init="getWeatherGeoLocation()" class="container-fluid" id="main-content">
+  <div class="row-fluid">
+    <div class="col-xs-9">
+      <div class="row-fluid">
+        <div class="iframe-ar">
+          <iframe src="{{ data }}" allowfullscreen="true"></iframe>
         </div>
-      </div><br>
-    </div>
-
-    <div class="item" ng-Repeat="item in playlist track by $index">
-      <div class="row" ng-Click="playlistClick(item, playlist)">
-        <img class="col-xs-6" id="thumb" src="{{ item.snippet.thumbnails.default.url }}" />
+      </div>
+      <div id="weather" class="row-fluid">
+        <div id="weatherHeader">
+          <br>
+          <img class="col-xs-1" id="weatherIcon"  ng-src="{{icon}}"/>
+          <span id="info">{{ weather }}<br></span><span id="info">{{ location }}</span>
+          <div class="right">
+            <form ng-submit="getWeatherByInput()" id="manualSearch">
+              <input ng-model="city" placeholder="Search by city" required />
+              <button>Search</button>  
+            </form>
+            <button ng-click="mic()" class="right"><img id="mic" src="/assets/mic.png"></button>
+          </div>
+        </div>
         <div class="col-xs-6">
-          <span>{{ item.snippet.title }}</span>
+          <div id="comment_form">
+            <form ng-Submit="postComment()">
+              <textarea ng-model="commentInput" rows="8" name="comment" id="comment" placeholder="Comment" maxlength="300" required></textarea><br>
+              <input type="submit" name="submit" value="Add Comment">
+            </form> 
+          </div>
+        </div>
+        <div class="col-xs-6" id="comments" style="height: {{ height / 2 }}px">
+        <br>
+          <span id="CommentsHeader">Comments:</span>
+          <span class="comment" ng-repeat="comment in comments">
+            <p>
+              <span>{{ comment.userName }}:</span>
+              <span>{{ comment.text }}</span>
+            </p>
+          </span>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="col-xs-9" id="weather">
-    <div class="row" id="weatherHeader">
-      <br>
-      <img class="col-xs-1" id="weatherIcon"  ng-src="{{icon}}"/>
-      <span id="info">{{ weather }}<br></span><span id="info">{{ location }}</span>
-    <!--   <div>
-        <form>
-          <button>Add to playlist</button>
-        </form>
-      </div> -->
-      <div class="right">
-        <form ng-submit="getWeatherByInput()" id="manualSearch">
-          <input ng-model="city" placeholder="Search by city" required />
-          <button>Search</button>
-        </form>
-        <button ng-click="mic()" class="right"><img id="mic" src="/assets/mic.png"></button>
+    <div id="playList" class="col-xs-3">
+      <button ng-click="newPlaylist()" ng-click="display('list')" id="saved" style="{{ save }}">Saved playlists</button>
+      <button ng-click="display('store')" id="save" style="{{ save }}">Save this playlist</button>
+      <form style="{{ store }}" ng-Submit="newPlaylist()">
+        <input ng-model="playlistName" id="listTitle" placeholder="Name the playlist!" maxlength="12" required></input>
+        <button id="check">&#10003;</button>
+      </form><br>
+
+      <div id="savedList" style="{{ list }}">
+        <div ng-repeat="item in savedPlaylists track by $index">
+          <div id="select">
+            <span ng-click="appendList(item)">{{ item }}</span>
+          </div>
+        </div><br>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div id="comment_form">
-        <form ng-Submit="postComment()">
-          <textarea ng-model="commentInput" rows="8" name="comment" id="comment" placeholder="Comment" maxlength="300" required></textarea><br>
-          <input type="submit" name="submit" value="Add Comment">
-        </form>
+
+      <div class="item" ng-Repeat="item in playlist track by $index">
+        <div class="row-fluid" ng-Click="playlistClick(item, playlist)">
+          <img class="col-xs-6" id="thumb" src="{{ item.snippet.thumbnails.default.url }}" />
+          <div class="col-xs-6">
+            <span>{{ item.snippet.title }}</span>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-6" id="comments" style="height: {{ height / 2 }}px">
-    <br>
-      <span id="CommentsHeader">Comments:</span>
-      <span class="comment" ng-repeat="comment in comments">
-        <p>
-          <span>{{ comment.userName }}:</span>
-          <span>{{ comment.text }}</span>
-        </p>
-      </span>
     </div>
   </div>
 </div>
