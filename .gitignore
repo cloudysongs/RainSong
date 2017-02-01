@@ -32,3 +32,7 @@ node_modules/
 bower_components/
 client/lib
 client/dist/
+
+# VS Code config file
+
+.vscode
