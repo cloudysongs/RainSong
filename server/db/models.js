@@ -14,7 +14,14 @@ var UserSchema = new mongoose.Schema({
   playlists: Array
 });
 
+var PlaylistSchema = new mongoose.Schema({
+  name: String,
+  comments: [{userName: String, text: String}],
+  videos: Array
+});
+
 module.exports = {
   Comment: mongoose.model('Comment', CommentSchema),
-  User: mongoose.model('User', UserSchema)
+  User: mongoose.model('User', UserSchema),
+  Playlist: mongoose.model('Playlist', PlaylistSchema)
 };

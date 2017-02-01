@@ -9,7 +9,7 @@
       <form ng-submit="logIn()" class="right" style="{{ logInButton }}">
         <input ng-model="username" placeholder="Username" minlength="4" required />
         <input type="password" ng-model="password" placeholder="Password" minlength="6" required />
-        <button>Login / Signup</button>  
+        <button>Login / Signup</button>
       </form>
     </div>
 
@@ -25,9 +25,9 @@
   <iframe class="col-xs-9" id="video" src="{{ data }}" allowfullscreen="true"></iframe>
 
   <div id="playList" class="col-xs-3">
-    <button ng-click="savePlaylist()" ng-click="display('list')" id="saved" style="{{ save }}">Saved playlists</button>
-    <button ng-click="display('store')" id="save" style="{{ save }}">Save this playlist</button>
-    <form style="{{ store }}" ng-Submit="savePlaylist()">
+    <button ng-click="display('list')" id="saved" style="{{ save }}">Saved playlists</button>
+    <button ng-click="display('store')" id="save" style="{{ save }}">New playlist</button>
+    <form style="{{ store }}" ng-Submit="newPlaylist()">
       <input ng-model="playlistName" id="listTitle" placeholder="Name the playlist!" maxlength="12" required></input>
       <button id="check">&#10003;</button>
     </form><br>
@@ -55,10 +55,15 @@
       <br>
       <img class="col-xs-1" id="weatherIcon"  ng-src="{{icon}}"/>
       <span id="info">{{ weather }}<br></span><span id="info">{{ location }}</span>
+    <!--   <div>
+        <form>
+          <button>Add to playlist</button>
+        </form>
+      </div> -->
       <div class="right">
         <form ng-submit="getWeatherByInput()" id="manualSearch">
           <input ng-model="city" placeholder="Search by city" required />
-          <button>Search</button>  
+          <button>Search</button>
         </form>
         <button ng-click="mic()" class="right"><img id="mic" src="/assets/mic.png"></button>
       </div>
@@ -68,7 +73,7 @@
         <form ng-Submit="postComment()">
           <textarea ng-model="commentInput" rows="8" name="comment" id="comment" placeholder="Comment" maxlength="300" required></textarea><br>
           <input type="submit" name="submit" value="Add Comment">
-        </form> 
+        </form>
       </div>
     </div>
     <div class="col-xs-6" id="comments" style="height: {{ height / 2 }}px">

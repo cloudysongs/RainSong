@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var routes = require('./db/routes');
 
 
-mongoose.connect('mongodb://heroku_tfpq2psd:igte9e9qas64bup68jli7rdtj4@ds137729.mlab.com:37729/heroku_tfpq2psd');
+mongoose.connect('mongodb://localhost/rainSong');
 
 var db = mongoose.connection;
 
@@ -17,7 +17,7 @@ db.once('open', function() {
   var port = process.env.PORT || 3000;
   app.listen(port, function() {
     console.log('I am listening to port:', port);
-    console.log('keys: ', process.env.YOUTUBE_KEY, process.env.OWM_KEY);
+    console.log('keys: ', 'AIzaSyBlZwWqIXAU8clA4CZOjo94dTe5HJol1ag', '3b12ada7c114c8c07bea47797cf3ab0a');
   });
 });
 
