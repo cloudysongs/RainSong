@@ -47,12 +47,10 @@ module.exports = {
 
   playlist: {
     getPlaylist: function(req, res) {
-
     },
 
     createPlaylist: function(req, res) {
       var playlist = req.body;
-      console.log("playlist in db:", playlist);
       new Playlist(playlist).save(function(err) {
         if (err) throw err;
         else {
