@@ -124,35 +124,36 @@ angular.module('rain.weather', [])
     });
   };
 
-  $scope.savePlaylist = function() {
-    Users.getUser({
-      userName: $window.localStorage.userName,
-      session: $window.localStorage.compareSession
-    }).then(function(data) {
-      console.log('user:', data)
-      var playlist = $scope.playlist;
-      console.log('playlist:', playlist)
-      var playlistName = $scope.playlistName;
-      console.log('playlistName:', playlistName)
-      var obj = {};
-      obj[playlistName] = playlist;
-      console.log('obj:', obj)
-      update(data, 'playlists', obj, '$addToSet').then(function() {
-        console.log('data:', data)
-        Users.getUser({ userName: $window.localStorage.userName }).then(function(updated) {
-          console.log('updated:', updated)
-          var playlistNames = updated[0].playlists.map(function(playlist) {
-            return Object.keys(playlist)[0];
-          });
-          console.log('playlistNames:', playlistNames)
-          $scope.savedPlaylists = playlistNames;
-          $scope.list = 'display: unset';
-          $scope.store = 'display: none';
-          $scope.playlistName = '';
-        });
-      });
-    });
-  };
+  //old savePlaylist function
+  // $scope.savePlaylist = function() {
+  //   Users.getUser({
+  //     userName: $window.localStorage.userName,
+  //     session: $window.localStorage.compareSession
+  //   }).then(function(data) {
+  //     console.log('user:', data)
+  //     var playlist = $scope.playlist;
+  //     console.log('playlist:', playlist)
+  //     var playlistName = $scope.playlistName;
+  //     console.log('playlistName:', playlistName)
+  //     var obj = {};
+  //     obj[playlistName] = playlist;
+  //     console.log('obj:', obj)
+  //     update(data, 'playlists', obj, '$addToSet').then(function() {
+  //       console.log('data:', data)
+  //       Users.getUser({ userName: $window.localStorage.userName }).then(function(updated) {
+  //         console.log('updated:', updated)
+  //         var playlistNames = updated[0].playlists.map(function(playlist) {
+  //           return Object.keys(playlist)[0];
+  //         });
+  //         console.log('playlistNames:', playlistNames)
+  //         $scope.savedPlaylists = playlistNames;
+  //         $scope.list = 'display: unset';
+  //         $scope.store = 'display: none';
+  //         $scope.playlistName = '';
+  //       });
+  //     });
+  //   });
+  // };
 
   $scope.newPlaylist = function() {
     var playlistName = $scope.playlistName;
