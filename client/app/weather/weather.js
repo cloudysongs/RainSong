@@ -6,7 +6,6 @@ angular.module('rain.weather', [])
   $scope.list = 'display: none';
   $scope.store = 'display: none';
   $scope.error = '';
-  
   var weatherIcons = {
     'Thunderstorm': '/assets/Storm.png',
     'Drizzle': '/assets/Rain-thin.png',

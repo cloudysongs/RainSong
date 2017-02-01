@@ -25,7 +25,7 @@
   <iframe class="col-xs-9" id="video" src="{{ data }}" allowfullscreen="true"></iframe>
 
   <div id="playList" class="col-xs-3">
-    <button ng-click="display('list')" id="saved" style="{{ save }}">Saved playlists</button>
+    <button ng-click="savePlaylist()" ng-click="display('list')" id="saved" style="{{ save }}">Saved playlists</button>
     <button ng-click="display('store')" id="save" style="{{ save }}">Save this playlist</button>
     <form style="{{ store }}" ng-Submit="savePlaylist()">
       <input ng-model="playlistName" id="listTitle" placeholder="Name the playlist!" maxlength="12" required></input>
