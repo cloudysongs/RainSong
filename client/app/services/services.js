@@ -146,13 +146,14 @@ angular.module('rain.services', [])
       });
     },
 
-    createPlaylist: function(playlist) {
+    newPlaylist: function(playlist) {
       console.log('playlist:', playlist);
       return $http({
         method: 'POST',
         url: '/api/playlists',
         data: playlist
       }).then(function(resp) {
+        console.log("resp", resp.data)
         return resp;
       });
     },
