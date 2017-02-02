@@ -5,16 +5,16 @@
   </div>
 
   <div class="col-xs-6">
-    <div class="top-nav-right">
-      <form ng-submit="logIn()" class="right" style="{{ logInButton }}">
+    <div class="top-nav-right" style="{{ logInButton }}">
+      <form ng-submit="logIn()" class="right">
         <input ng-model="username" placeholder="Username" minlength="4" required />
         <input type="password" ng-model="password" placeholder="Password" minlength="6" required />
         <button>Login / Signup</button>
       </form>
     </div>
 
-    <div class="top-nav-right">
-      <button ng-click="logOut()" class="right" style="{{ logOutButton }}">Log Out</button>
+    <div class="top-nav-right" style="{{ logOutButton }}">
+      <button ng-click="logOut()" class="right">Log Out</button>
       <span class="right" id="currentUser">{{ currentUser }}</span>
       <span class="right">{{ error }}</span>
     </div>
