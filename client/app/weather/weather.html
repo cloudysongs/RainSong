@@ -69,7 +69,7 @@
     </div>
 
     <div id="playList" class="col-xs-3">
-      <button ng-click="display('list')" id="saved" style="{{ save }}">Saved playlists</button>
+      <button ng-click="show()" ng-click="display('list')" id="saved" style="{{ save }}">Saved playlists</button>
       <button ng-click="display('store')" id="save" style="{{ save }}">New playlist</button>
       <form style="{{ store }}" ng-Submit="newPlaylist()">
         <input ng-model="playlistName" id="listTitle" placeholder="Name the playlist!" maxlength="12" required></input>
@@ -81,7 +81,7 @@
           <div id="select">
             <span ng-click="appendList(item)">{{ item }}</span>
           </div>
-        </div><br>
+        </div>
       </div>
 
       <div class="item" ng-Repeat="item in playlist track by $index">

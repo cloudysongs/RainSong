@@ -91,6 +91,20 @@ angular.module('rain.weather', [])
     }
   };
 
+  $scope.show = function() {
+    Users.getUser({
+      userName: $window.localStorage.userName
+    }).then(function(user) {
+      $scope.savedPlaylists = user[0].playlists;
+    })
+
+    if ($scope.list === 'display: inline') {
+      $scope.list = 'display: none';
+    } else {
+      $scope.list = 'display: inline';
+    }
+  }
+
   $scope.appendList = function(target) {
     console.log("appending")
     Users.getUser({
@@ -179,9 +193,7 @@ angular.module('rain.weather', [])
       updateUser(user, 'playlists', playlistName, '$addToSet').then(function() {
         Users.getUser({ userName: $window.localStorage.userName }).then(function(updated) {
           $scope.savedPlaylists = updated[0].playlists;
-          $scope.list = 'display: unset';
           $scope.store = 'display: none';
-          $scope.playlistName = '';
         });
       });
     })
@@ -285,7 +297,7 @@ angular.module('rain.weather', [])
           $window.localStorage.userName = data.config.data.userName;
           $window.localStorage.compareSession = currentSession;
         });
-        $scope.save = 'display: unset';
+        $scope.save = 'display: none';
         $scope.logInButton = 'display: none';
         $scope.logOutButton = '';
         $scope.error = '';
