@@ -43,15 +43,6 @@ angular.module('rain.weather', [])
     });
   };
 
-  var update = function(data, prop, val, meth) {
-    return Users.updateUser({
-      _id: data[0]._id,
-      property: prop,
-      value: val,
-      method: meth
-    });
-  };
-
   var generateSession = function() {
     var output = '';
     while (output.length < 10) { output += Math.floor(Math.random() * 10); }
@@ -74,9 +65,10 @@ angular.module('rain.weather', [])
             getPlaylist(data.list[0].weather[0].main);
             $scope.icon = weatherIcons[data.list[0].weather[0].main];
           });
+          console.log('data', data)
 
           var playlistNames = data[0].playlists.map(function(playlist) {
-            return Object.keys(playlist)[0];
+              return Object.keys(playlist)[0];
           });
 
           $scope.savedPlaylists = playlistNames;
@@ -112,6 +104,7 @@ angular.module('rain.weather', [])
       data[0].playlists.forEach(function(list) {
         if (Object.keys(list)[0] === target) {
           var newList = list[Object.keys(list)[0]];
+          console.log("scope playlist", $scope.playlist)
           $scope.playlist = newList;
           var playlist = newList.map(function(item) {
             return item.id.videoId;
@@ -123,37 +116,6 @@ angular.module('rain.weather', [])
       });
     });
   };
-
-  //old savePlaylist function
-  // $scope.savePlaylist = function() {
-  //   Users.getUser({
-  //     userName: $window.localStorage.userName,
-  //     session: $window.localStorage.compareSession
-  //   }).then(function(data) {
-  //     console.log('user:', data)
-  //     var playlist = $scope.playlist;
-  //     console.log('playlist:', playlist)
-  //     var playlistName = $scope.playlistName;
-  //     console.log('playlistName:', playlistName)
-  //     var obj = {};
-  //     obj[playlistName] = playlist;
-  //     console.log('obj:', obj)
-  //     update(data, 'playlists', obj, '$addToSet').then(function() {
-  //       console.log('data:', data)
-  //       Users.getUser({ userName: $window.localStorage.userName }).then(function(updated) {
-  //         console.log('updated:', updated)
-  //         var playlistNames = updated[0].playlists.map(function(playlist) {
-  //           return Object.keys(playlist)[0];
-  //         });
-  //         console.log('playlistNames:', playlistNames)
-  //         $scope.savedPlaylists = playlistNames;
-  //         $scope.list = 'display: unset';
-  //         $scope.store = 'display: none';
-  //         $scope.playlistName = '';
-  //       });
-  //     });
-  //   });
-  // };
 
   $scope.newPlaylist = function() {
     var playlistName = $scope.playlistName;
@@ -228,7 +190,7 @@ angular.module('rain.weather', [])
             userName: $window.localStorage.userName,
             session: $window.localStorage.compareSession
           }).then(function(data) {
-            update(data, 'lastLocation', $scope.loc, '$set');
+            updateUser(data, 'lastLocation', $scope.loc, '$set');
           });
         }
       });
@@ -236,6 +198,7 @@ angular.module('rain.weather', [])
   };
 
   $scope.playlistClick = function(item, playlist) {
+    console.log("clicked", playlist);
     var temp = playlist.map(function(item) {
       return item.id.videoId;
     });
@@ -247,29 +210,108 @@ angular.module('rain.weather', [])
     $scope.comments = comments.reverse();
   });
 
-  $scope.postComment = function() {
-    var comment = {
-      userName: $window.localStorage.userName || 'Anonymous',
-      text: $scope.commentInput
-    };
-
-    var post = function() {
-      Comments.postComments(comment).then(function(data) {
-        Comments.getComments().then(function(comments) {
-          $scope.comments = comments.reverse();
+  $scope.newPlaylist = function() {
+    var playlistName = $scope.playlistName;
+    $window.localStorage.playlistName = playlistName;
+    Users.getUser({
+      userName: $window.localStorage.userName,
+      session: $window.localStorage.compareSession
+    }).then(function(user) {
+      Playlists.newPlaylist({
+        name: playlistName,
+        comments: [],
+        videos: []
+      }).then(function(playlist) {
+        console.log("playlist created", playlist);
+      });
+      updateUser(user, 'playlists', playlistName, '$addToSet').then(function() {
+        Users.getUser({ userName: $window.localStorage.userName }).then(function(updated) {
+          console.log('updated user', updated)
+          var playlistNames = updated[0].playlists.map(function(playlist) {
+            console.log(playlist)
+            return Object.keys(playlist)[0];
+          });
+          $scope.savedPlaylists = playlistNames;
+          $scope.list = 'display: unset';
+          $scope.store = 'display: none';
+          $scope.playlistName = '';
         });
       });
-    };
+    })
+  }
 
-    if ($window.localStorage.userName) {
-      Users.getUser({ userName: $window.localStorage.userName }).then(function(data) {
-        if ($window.localStorage.compareSession === data[0].session) {
-          post();
-        }
-      });
-    } else {
-      post();
-    }
+  var updateUser = function(data, prop, val, meth) {
+    return Users.updateUser({
+      _id: data[0]._id,
+      property: prop,
+      value: val,
+      method: meth
+    });
+  };
+
+  var updatePlaylist = function(data, prop, val, meth) {
+    console.log("inside updatePlaylist")
+    console.log("data", data)
+    console.log('prop', prop)
+    console.log("val", val)
+    console.log("meth", meth)
+    return Playlists.updatePlaylist({
+      _id: data[0]._id,
+      property: prop,
+      value: val,
+      method: meth
+    });
+  };
+
+  $scope.postComment = function() {
+    console.log("window playlistName", $window.localStorage.playlistName);
+    var comment = {
+      userName: $window.localStorage.userName || 'Anonymous',
+      text: $scope.commentInput,
+      playlistName: $window.localStorage.playlistName
+    };
+    // Comments.postComments()
+    Playlists.getPlaylist({
+      name: $window.localStorage.playlistName
+    }).then(function(playlist) {
+      console.log("got playlist:", playlist);
+      updatePlaylist(playlist, 'comments', comment, '$addToSet').then(function() {
+          Playlists.getPlaylist({
+            name: $window.localStorage.playlistName
+          }).then(function(updated) {
+            var comments = updated[0].comments;
+            var playlist = updated[0].name;
+            console.log('updated playlist:', updated[0]);
+            $scope.comments = comments.reverse();
+           // comments.forEach(function(comment){
+           //    Comments.postComments(comment).then(function(data) {
+           //      Comments.getComments(playlist).then(function(comments) {
+           //        console.log('returned comments', comments)
+           //        console.log($scope.comments);
+           //      })
+           //    })
+           //  })
+          })
+      })
+    })
+
+    // var post = function() {
+    //   Comments.postComments(comment).then(function(data) {
+    //     Comments.getComments().then(function(comments) {
+    //       $scope.comments = comments.reverse();
+    //     });
+    //   });
+    // };
+
+    // if ($window.localStorage.userName) {
+    //   Users.getUser({ userName: $window.localStorage.userName }).then(function(data) {
+    //     if ($window.localStorage.compareSession === data[0].session) {
+    //       post();
+    //     }
+    //   });
+    // } else {
+    //   post();
+    // }
     $scope.commentInput = '';
   };
 
@@ -304,7 +346,7 @@ angular.module('rain.weather', [])
           if (!data.length) {
             $scope.error = 'Wrong password, try again.';
           } else {
-            update(data, 'session', currentSession, '$set').then(function(update) {
+            updateUser(data, 'session', currentSession, '$set').then(function(update) {
               $scope.currentUser = 'Logged in as - ' + update.data.userName;
               $window.localStorage.userName = update.data.userName;
               $window.localStorage.compareSession = update.config.data.value;
