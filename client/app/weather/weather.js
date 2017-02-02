@@ -65,13 +65,8 @@ angular.module('rain.weather', [])
             getPlaylist(data.list[0].weather[0].main);
             $scope.icon = weatherIcons[data.list[0].weather[0].main];
           });
-          console.log('data', data)
 
-          var playlistNames = data[0].playlists.map(function(playlist) {
-              return Object.keys(playlist)[0];
-          });
-
-          $scope.savedPlaylists = playlistNames;
+          $scope.savedPlaylists = data[0].playlists;
           $scope.save = 'display: unset';
           $scope.currentUser = 'Logged in as - ' + $window.localStorage.userName;
           $scope.logInButton = 'display: none';
@@ -97,18 +92,21 @@ angular.module('rain.weather', [])
   };
 
   $scope.appendList = function(target) {
+    console.log("appending")
     Users.getUser({
       userName: $window.localStorage.userName,
       session: $window.localStorage.compareSession
     }).then(function(data) {
-      data[0].playlists.forEach(function(list) {
-        if (Object.keys(list)[0] === target) {
-          var newList = list[Object.keys(list)[0]];
+      console.log(data)
+      console.log('target:', target)
+      data[0].playlists.forEach(function(playlist) {
+        if (playlist === target) {
+          console.log("playlist", playlist)
+          $scope.playlist = playlist;
           console.log("scope playlist", $scope.playlist)
-          $scope.playlist = newList;
-          var playlist = newList.map(function(item) {
-            return item.id.videoId;
-          });
+          // var playlist = newList.map(function(item) {
+          //   return item.id.videoId;
+          // });
           var firstVid = playlist.shift();
           playlist = playlist.join(',');
           $scope.data = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + firstVid + '?playlist=' + playlist + '&autoplay=1&loop=1&iv_load_policy=3');
@@ -165,10 +163,6 @@ angular.module('rain.weather', [])
     $scope.data = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + item.id.videoId + '?playlist=' + reorder + '&autoplay=1&loop=1');
   };
 
-  Comments.getComments().then(function(comments) {
-    $scope.comments = comments.reverse();
-  });
-
   $scope.newPlaylist = function() {
     var playlistName = $scope.playlistName;
     $window.localStorage.playlistName = playlistName;
@@ -223,7 +217,8 @@ angular.module('rain.weather', [])
       text: $scope.commentInput,
       playlistName: $window.localStorage.playlistName
     };
-    // Comments.postComments()
+
+    Comments.postComments(comment);
     Playlists.getPlaylist({
       name: $window.localStorage.playlistName
     }).then(function(playlist) {
