@@ -34,7 +34,7 @@
             <div class="vertical-align-parent inherit">
               <form ng-submit="getWeatherByInput()" id="manualSearch">
                 <input ng-model="city" placeholder="Search by city" id="city-search" required />
-                <button>Search</button>  
+                <button>Search</button>
               </form>
               <button ng-click="mic()" id="mic-button"><img id="mic" src="/assets/mic.png"></button>
             </div>
@@ -53,7 +53,7 @@
             <form ng-Submit="postComment()" id="comment_form">
               <input contenteditable="" ng-model="commentInput" rows="8" name="comment" id="comment" placeholder="Comment" maxlength="300" required aria-multiline="true" rows='1' />
               <input type="submit" name="submit" value="Add Comment">
-            </form> 
+            </form>
           </div>
         <!--</div>-->
         <div id="comments">
@@ -69,9 +69,9 @@
     </div>
 
     <div id="playList" class="col-xs-3">
-      <button ng-click="newplaylist()" ng-click="display('list')" id="saved" style="{{ save }}">Saved playlists</button>
-      <button ng-click="display('store')" id="save" style="{{ save }}">Save this playlist</button>
-      <form style="{{ store }}" ng-Submit="newplaylist()">
+      <button ng-click="display('list')" id="saved" style="{{ save }}">Saved playlists</button>
+      <button ng-click="display('store')" id="save" style="{{ save }}">New playlist</button>
+      <form style="{{ store }}" ng-Submit="newPlaylist()">
         <input ng-model="playlistName" id="listTitle" placeholder="Name the playlist!" maxlength="12" required></input>
         <button id="check">&#10003;</button>
       </form><br>

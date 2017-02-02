@@ -117,47 +117,6 @@ angular.module('rain.weather', [])
     });
   };
 
-  $scope.newPlaylist = function() {
-    var playlistName = $scope.playlistName;
-    Users.getUser({
-      userName: $window.localStorage.userName,
-      session: $window.localStorage.compareSession
-    }).then(function(user) {
-      Playlists.newPlaylist({
-        name: playlistName,
-        comments: [],
-        videos: []
-      }).then(function(playlist) {
-        console.log("playlist", playlist);
-      });
-      var playlist = $scope.playlist;
-      var obj = {};
-      obj[playlistName] = playlist;
-      update(user, 'playlists', obj, '$addToSet').then(function() {
-        Users.getUser({ userName: $window.localStorage.userName }).then(function(updated) {
-          var playlistNames = updated[0].playlists.map(function(playlist) {
-            return Object.keys(playlist)[0];
-          });
-          $scope.savedPlaylists = playlistNames;
-          $scope.list = 'display: unset';
-          $scope.store = 'display: none';
-          $scope.playlistName = '';
-        });
-      });
-    })
-  }
-
-  $scope.newPlaylist = function() {
-    var playlistName = $scope.playlistName;
-    console.log(playlistName);
-    Playlists.createPlaylist({
-      name: playlistName,
-      comments: [],
-      videos: []
-    }).then(function(data) {
-      console.log(data);
-    })
-  }
 
   $scope.getWeatherByInput = function() {
     Weather.getWeatherByCity($scope.city).then(function(data) {
@@ -221,17 +180,11 @@ angular.module('rain.weather', [])
         name: playlistName,
         comments: [],
         videos: []
-      }).then(function(playlist) {
-        console.log("playlist created", playlist);
       });
+
       updateUser(user, 'playlists', playlistName, '$addToSet').then(function() {
         Users.getUser({ userName: $window.localStorage.userName }).then(function(updated) {
-          console.log('updated user', updated)
-          var playlistNames = updated[0].playlists.map(function(playlist) {
-            console.log(playlist)
-            return Object.keys(playlist)[0];
-          });
-          $scope.savedPlaylists = playlistNames;
+          $scope.savedPlaylists = updated[0].playlists;
           $scope.list = 'display: unset';
           $scope.store = 'display: none';
           $scope.playlistName = '';
