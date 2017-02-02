@@ -7,14 +7,19 @@ var request = require('request');
 module.exports = {
   comment: {
     get: function(req, res) {
-      Comment.find().then(function(resp) {
+      console.log("get", req.query);
+      Comment.find(req.query).then(function(resp) {
+        console.log('get resp', resp)
         res.json(resp);
       });
     },
+
     post: function(req, res) {
+      console.log(req.body)
       var params = {
         userName: req.body.userName,
-        text: req.body.text
+        text: req.body.text,
+        playlistName: req.body.playlistName
       };
       Comment.create(params).then(function(resp) {
         res.sendStatus(201);
@@ -47,6 +52,9 @@ module.exports = {
 
   playlist: {
     getPlaylist: function(req, res) {
+      Playlist.find({name: req.query.name}).then(function(resp) {
+        res.json(resp);
+      })
     },
 
     createPlaylist: function(req, res) {
@@ -60,7 +68,13 @@ module.exports = {
     },
 
     updatePlaylist: function(req, res) {
-
+      var val = req.body.value;      console.log(val);
+      console.log(req.body);
+      Playlist.findByIdAndUpdate(req.body._id, {
+        [req.body.method]: {[req.body.property]: req.body.value}
+      }).then(function(resp) {
+        res.json(resp);
+      })
     }
   },
 

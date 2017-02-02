@@ -79,16 +79,19 @@ angular.module('rain.services', [])
 
 .factory('Comments', ['$http', function($http) {
   return {
-    getComments: function() {
+    getComments: function(playlistName) {
       return $http({
         method: 'GET',
-        url: '/api/comments'
+        url: '/api/comments',
+        params: {playlistName: playlistName}
       }).then(function(resp) {
+        console.log(resp.data);
         return resp.data;
       });
     },
 
     postComments: function(data) {
+      console.log('postcomment:', data)
       return $http({
         method: 'POST',
         url: '/api/comments',
@@ -136,12 +139,13 @@ angular.module('rain.services', [])
 
 .factory('Playlists', ['$http', function($http) {
   return {
-    getPlaylist: function(playlist) {
+    getPlaylist: function(name) {
       return $http({
         method: 'GET',
         url: '/api/playlists',
-        params: playlist
+        params: name
       }).then(function(resp) {
+        console.log("result of get:", resp.data);
         return resp.data;
       });
     },
@@ -157,11 +161,12 @@ angular.module('rain.services', [])
       });
     },
 
-    addSong: function(song) {
+    updatePlaylist: function(playlist) {
+      console.log(playlist)
       return $http({
         method: 'PUT',
         url: '/api/playlists',
-        data: song
+        data: playlist
       }).then(function(resp) {
         return resp;
       });

@@ -3,7 +3,8 @@ mongoose.Promise = global.Promise;
 
 var CommentSchema = new mongoose.Schema({
   userName: String,
-  text: String
+  text: String,
+  playlistName: String
 });
 
 var UserSchema = new mongoose.Schema({
@@ -16,7 +17,7 @@ var UserSchema = new mongoose.Schema({
 
 var PlaylistSchema = new mongoose.Schema({
   name: String,
-  comments: [{userName: String, text: String}],
+  comments: Array,
   videos: Array
 });
 
