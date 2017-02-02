@@ -65,9 +65,10 @@ angular.module('rain.weather', [])
             getPlaylist(data.list[0].weather[0].main);
             $scope.icon = weatherIcons[data.list[0].weather[0].main];
           });
+          console.log('data', data)
 
           var playlistNames = data[0].playlists.map(function(playlist) {
-            return Object.keys(playlist)[0];
+              return Object.keys(playlist)[0];
           });
 
           $scope.savedPlaylists = playlistNames;
@@ -103,6 +104,7 @@ angular.module('rain.weather', [])
       data[0].playlists.forEach(function(list) {
         if (Object.keys(list)[0] === target) {
           var newList = list[Object.keys(list)[0]];
+          console.log("scope playlist", $scope.playlist)
           $scope.playlist = newList;
           var playlist = newList.map(function(item) {
             return item.id.videoId;
@@ -196,7 +198,7 @@ angular.module('rain.weather', [])
   };
 
   $scope.playlistClick = function(item, playlist) {
-    console.log(playlist);
+    console.log("clicked", playlist);
     var temp = playlist.map(function(item) {
       return item.id.videoId;
     });
@@ -220,14 +222,13 @@ angular.module('rain.weather', [])
         comments: [],
         videos: []
       }).then(function(playlist) {
-        console.log("playlist", playlist);
+        console.log("playlist created", playlist);
       });
-      var playlist = $scope.playlist;
-      var obj = {};
-      obj[playlistName] = playlist;
-      updateUser(user, 'playlists', obj, '$addToSet').then(function() {
+      updateUser(user, 'playlists', playlistName, '$addToSet').then(function() {
         Users.getUser({ userName: $window.localStorage.userName }).then(function(updated) {
+          console.log('updated user', updated)
           var playlistNames = updated[0].playlists.map(function(playlist) {
+            console.log(playlist)
             return Object.keys(playlist)[0];
           });
           $scope.savedPlaylists = playlistNames;

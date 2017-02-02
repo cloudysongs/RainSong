@@ -85,7 +85,6 @@ angular.module('rain.services', [])
         url: '/api/comments',
         params: {playlistName: playlistName}
       }).then(function(resp) {
-        console.log(resp.data);
         return resp.data;
       });
     },
