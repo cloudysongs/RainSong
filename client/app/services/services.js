@@ -153,7 +153,6 @@ angular.module('rain.services', [])
         url: '/api/playlists',
         data: playlist
       }).then(function(resp) {
-        console.log("resp", resp.data)
         return resp;
       });
     },

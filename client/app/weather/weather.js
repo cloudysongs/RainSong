@@ -169,23 +169,31 @@ angular.module('rain.weather', [])
         console.log("playlist", playlist);
       });
       var playlist = $scope.playlist;
-      // console.log('playlist:', playlist)
-      // console.log('playlistName:', playlistName)
       var obj = {};
       obj[playlistName] = playlist;
       update(user, 'playlists', obj, '$addToSet').then(function() {
         Users.getUser({ userName: $window.localStorage.userName }).then(function(updated) {
-          // console.log('updated:', updated)
           var playlistNames = updated[0].playlists.map(function(playlist) {
             return Object.keys(playlist)[0];
           });
-          // console.log('playlistNames:', playlistNames)
           $scope.savedPlaylists = playlistNames;
           $scope.list = 'display: unset';
           $scope.store = 'display: none';
           $scope.playlistName = '';
         });
       });
+    })
+  }
+
+  $scope.newPlaylist = function() {
+    var playlistName = $scope.playlistName;
+    console.log(playlistName);
+    Playlists.createPlaylist({
+      name: playlistName,
+      comments: [],
+      videos: []
+    }).then(function(data) {
+      console.log(data);
     })
   }
 
