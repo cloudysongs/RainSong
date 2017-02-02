@@ -6,6 +6,10 @@ html {
   height: 100%;
 }
 
+.col-xs-9 {
+  height: 100%;
+}
+
 body {
   background: url('https://source.unsplash.com/category/nature') no-repeat center center fixed; 
   -webkit-background-size: cover;
@@ -15,9 +19,14 @@ body {
   height: 100vh;
 }
 
-.ng-scope {
+.app {
   height: 100%;
 }
+
+/*.main-content {
+  height: 93%;
+  padding: 0;
+}*/
 
 .top-nav-right {
   height: 100%;
@@ -38,7 +47,18 @@ body {
   float: right;
 }
 
+.top-nav-right > form > input {
+  width: 30%;
+  margin: 0.25%;
+}
+
+.top-nav-right > form > button {
+  max-width: 30%;
+  margin: 0.25%;
+}
+
 #main-content {
+  height: 100%;
   /*background-color: #fff;*/
 }
 
@@ -51,6 +71,12 @@ body {
 
 textarea {
   resize: none;
+}
+
+.comment-box {
+  background-color: #fff;
+  overflow: scroll;
+  height: 52%;
 }
 
 #CommentsHeader {
@@ -156,7 +182,8 @@ iframe {
 
 #playList {
   background-color: #000000;
-  height: 120%;
+  height: 100%;
+  /*height: 93vh;*/
   overflow-y: scroll;
   overflow-x: hidden;
   color: #FFFFFF;
@@ -167,7 +194,7 @@ iframe {
   float: right;
 }
 
-.container-fluid > #weather-search {
+#weather-search {
   background-color: #fff;
   padding: 0.5%;
   padding: 0;
@@ -191,14 +218,30 @@ iframe {
 }
 
 .vertical-align-parent {
+  height: 100%;
   display: inline-flex;
   justify-content: flex-end;
   align-items: center;
 }
 
+.vertical-align-parent > form {
+  height: 100%;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.vertical-align-parent > form > input {
+  margin-top: 3%;
+}
+
 #manualSearch {
   display: inline;
   max-width: 70%;
+}
+
+#manualSearch > button {
+  margin: 2.5%;
 }
 
 #mic-button {

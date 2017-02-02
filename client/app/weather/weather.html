@@ -21,10 +21,10 @@
   </div>
 </div>
 
-<div ng-init="getWeatherGeoLocation()" class="container-fluid" style="padding: 0">
+<div ng-init="getWeatherGeoLocation()" class="container-fluid main-content" style="padding: 0; height: 93%">
   <div class="row-fluid" id="main-content">
     <div class="col-xs-9" style="padding: 0">
-      <div class="container-fluid" style="padding: 0">
+      <!--<div class="container-fluid" style="padding: 0">-->
         <div class="row-fluid" id="weather-search">
           <div class="col-xs-6 inherit">
             <img class="col-xs-1" id="weatherIcon" ng-src="{{icon}}"/>
@@ -43,14 +43,13 @@
             </div>
           </div>
         </div>
-      </div>
+      <!--</div>-->
       <div class="row-fluid">
         <div class="iframe-ar">
           <iframe src="{{ data }}" allowfullscreen="true"></iframe>
         </div>
       </div>
-      <div class="row-fluid" style="
-    background-color: #fff">
+      <div class="row-fluid comment-box">
         <!--<div class="col-xs-6">-->
           <div>
             <form ng-Submit="postComment()" id="comment_form">
