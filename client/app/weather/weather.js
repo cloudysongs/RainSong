@@ -6,7 +6,7 @@ angular.module('rain.weather', [])
   $scope.list = 'display: none';
   $scope.store = 'display: none';
   $scope.error = '';
-
+  $scope.currentPlaylist = $window.localStorage.playlistName;
   var weatherIcons = {
     'Thunderstorm': '/assets/Storm.png',
     'Drizzle': '/assets/Rain-thin.png',
@@ -105,29 +105,29 @@ angular.module('rain.weather', [])
     }
   }
 
-  $scope.appendList = function(target) {
-    console.log("appending")
-    Users.getUser({
-      userName: $window.localStorage.userName,
-      session: $window.localStorage.compareSession
-    }).then(function(data) {
-      console.log(data)
-      console.log('target:', target)
-      data[0].playlists.forEach(function(playlist) {
-        if (playlist === target) {
-          console.log("playlist", playlist)
-          $scope.playlist = playlist;
-          console.log("scope playlist", $scope.playlist)
-          // var playlist = newList.map(function(item) {
-          //   return item.id.videoId;
-          // });
-          var firstVid = playlist.shift();
-          playlist = playlist.join(',');
-          $scope.data = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + firstVid + '?playlist=' + playlist + '&autoplay=1&loop=1&iv_load_policy=3');
-        }
-      });
-    });
-  };
+  // $scope.appendList = function(target) {
+  //   console.log("appending")
+  //   Users.getUser({
+  //     userName: $window.localStorage.userName,
+  //     session: $window.localStorage.compareSession
+  //   }).then(function(data) {
+  //     console.log(data)
+  //     console.log('target:', target)
+  //     data[0].playlists.forEach(function(playlist) {
+  //       if (playlist === target) {
+  //         console.log("playlist", playlist)
+  //         $scope.playlist = playlist;
+  //         console.log("scope playlist", $scope.playlist)
+  //         // var playlist = newList.map(function(item) {
+  //         //   return item.id.videoId;
+  //         // });
+  //         var firstVid = playlist.shift();
+  //         playlist = playlist.join(',');
+  //         $scope.data = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + firstVid + '?playlist=' + playlist + '&autoplay=1&loop=1&iv_load_policy=3');
+  //       }
+  //     });
+  //   });
+  // };
 
 
   $scope.getWeatherByInput = function() {
@@ -197,6 +197,15 @@ angular.module('rain.weather', [])
         });
       });
     })
+  }
+
+  $scope.usePlaylist = function(playlist) {
+    console.log("using", playlist)
+    $window.localStorage.playlistName = playlist;
+    Playlists.getPlaylist({
+      name: playlist
+    })
+    location.reload();
   }
 
   var updateUser = function(data, prop, val, meth) {
@@ -282,6 +291,7 @@ angular.module('rain.weather', [])
   };
 
   $scope.logIn = function() {
+    console.log('location:', location)
     var currentSession = generateSession();
     Users.getUser({ userName: $scope.username }).then(function(data) {
       if (!data.length) {

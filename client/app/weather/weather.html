@@ -30,6 +30,9 @@
             <img class="col-xs-1" id="weatherIcon" ng-src="{{icon}}"/>
             <span id="info">{{ weather }}<br></span><span id="info">{{ location }}</span>
           </div>
+          <div>
+            <span>Current Playlist:<br>{{ currentPlaylist }} </span>
+          </div>
           <div class="col-xs-6 inherit" id="search-bundle">
             <div class="vertical-align-parent inherit">
               <form ng-submit="getWeatherByInput()" id="manualSearch">
@@ -79,7 +82,7 @@
       <div id="savedList" style="{{ list }}">
         <div ng-repeat="item in savedPlaylists track by $index">
           <div id="select">
-            <span ng-click="appendList(item)">{{ item }}</span>
+            <span ng-click="usePlaylist(item)">{{ item }}</span>
           </div>
         </div>
       </div>
