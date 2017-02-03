@@ -4,6 +4,7 @@ angular.module('rain.weather', [])
   $scope.height = screen.height / 1.2;
   $scope.weather = 'Loading...';
   $scope.list = 'display: none';
+  $scope.add = 'display: none';
   $scope.store = 'display: none';
   $scope.error = '';
   $scope.currentPlaylist = $window.localStorage.playlistName;
@@ -17,6 +18,7 @@ angular.module('rain.weather', [])
     'Extreme': '/assets/Tornado.png',
     'Fog': '/assets/Haze.png'
   };
+  var video;
 
   if (!$window.localStorage.userName) {
     $scope.showPlaylist = 'display: none';
@@ -109,30 +111,13 @@ angular.module('rain.weather', [])
     }
   }
 
-  // $scope.appendList = function(target) {
-  //   console.log("appending")
-  //   Users.getUser({
-  //     userName: $window.localStorage.userName,
-  //     session: $window.localStorage.compareSession
-  //   }).then(function(data) {
-  //     console.log(data)
-  //     console.log('target:', target)
-  //     data[0].playlists.forEach(function(playlist) {
-  //       if (playlist === target) {
-  //         console.log("playlist", playlist)
-  //         $scope.playlist = playlist;
-  //         console.log("scope playlist", $scope.playlist)
-  //         // var playlist = newList.map(function(item) {
-  //         //   return item.id.videoId;
-  //         // });
-  //         var firstVid = playlist.shift();
-  //         playlist = playlist.join(',');
-  //         $scope.data = $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + firstVid + '?playlist=' + playlist + '&autoplay=1&loop=1&iv_load_policy=3');
-  //       }
-  //     });
-  //   });
-  // };
-
+  $scope.showAdd = function() {
+    if ($scope.add === 'display: block') {
+      $scope.add = 'display: none';
+    } else {
+      $scope.add = 'display: block';
+    }
+  }
 
   $scope.getWeatherByInput = function() {
     Weather.getWeatherByCity($scope.city).then(function(data) {
@@ -173,7 +158,7 @@ angular.module('rain.weather', [])
   };
 
   $scope.playlistClick = function(item, playlist) {
-    console.log("clicked", playlist);
+    video = item;
     var temp = playlist.map(function(item) {
       return item.id.videoId;
     });
@@ -231,15 +216,30 @@ angular.module('rain.weather', [])
     });
   };
 
+  $scope.addToPlaylist = function() {
+    if (!video) {
+      alert('pick a video first')
+    } else {
+      Playlists.getPlaylist({
+        name: $window.localStorage.playlistName
+      }).then(function(playlist) {
+        console.log(playlist);
+        console.log('video', video)
+        updatePlaylist(playlist, 'videos', video, '$addToSet').then(function(updated) {
+          console.log(updated);
+        })
+      })
+    }
+  }
+
   displayComments = function() {
     if ($scope.currentPlaylist) {
       Playlists.getPlaylist({
         name: $window.localStorage.playlistName
       }).then(function(playlist) {
         console.log("playlist", playlist[0]);
-        $scope.comments = playlist[0].comments;
+        $scope.comments = playlist[0].comments.reverse();
       })
-      console.log("displayComments")
     }
   }
 
@@ -252,49 +252,20 @@ angular.module('rain.weather', [])
       text: $scope.commentInput,
       playlistName: $window.localStorage.playlistName
     };
-
     Comments.postComments(comment);
     Playlists.getPlaylist({
       name: $window.localStorage.playlistName
     }).then(function(playlist) {
-      console.log("got playlist:", playlist);
       updatePlaylist(playlist, 'comments', comment, '$addToSet').then(function() {
           Playlists.getPlaylist({
             name: $window.localStorage.playlistName
           }).then(function(updated) {
             var comments = updated[0].comments;
             var playlist = updated[0].name;
-            console.log('updated playlist:', updated[0]);
             $scope.comments = comments.reverse();
-           // comments.forEach(function(comment){
-           //    Comments.postComments(comment).then(function(data) {
-           //      Comments.getComments(playlist).then(function(comments) {
-           //        console.log('returned comments', comments)
-           //        console.log($scope.comments);
-           //      })
-           //    })
-           //  })
           })
       })
     })
-
-    // var post = function() {
-    //   Comments.postComments(comment).then(function(data) {
-    //     Comments.getComments().then(function(comments) {
-    //       $scope.comments = comments.reverse();
-    //     });
-    //   });
-    // };
-
-    // if ($window.localStorage.userName) {
-    //   Users.getUser({ userName: $window.localStorage.userName }).then(function(data) {
-    //     if ($window.localStorage.compareSession === data[0].session) {
-    //       post();
-    //     }
-    //   });
-    // } else {
-    //   post();
-    // }
     $scope.commentInput = '';
   };
 
@@ -302,12 +273,12 @@ angular.module('rain.weather', [])
     $window.localStorage.removeItem('userName');
     $window.localStorage.removeItem('session');
     $window.localStorage.removeItem('playlistName');
-    console.log($window.localStorage);
     location.reload();
   };
 
   $scope.logIn = function() {
     $scope.showPlaylist = 'display: inline';
+    $scope.save = 'display: inline';
     var currentSession = generateSession();
     Users.getUser({ userName: $scope.username }).then(function(data) {
       if (!data.length) {
@@ -323,7 +294,6 @@ angular.module('rain.weather', [])
           $window.localStorage.userName = data.config.data.userName;
           $window.localStorage.compareSession = currentSession;
         });
-        $scope.save = 'display: none';
         $scope.logInButton = 'display: none';
         $scope.logOutButton = '';
         $scope.error = '';
