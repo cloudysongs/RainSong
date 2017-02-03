@@ -31,7 +31,7 @@
             <span id="info">{{ weather }}<br></span><span id="info">{{ location }}</span>
           </div>
           <div>
-            <span>Current Playlist:<br>{{ currentPlaylist }} </span>
+            <span style="{{ showPlaylist }}">Current Playlist:<br>{{ currentPlaylist }} </span>
           </div>
           <div class="col-xs-6 inherit" id="search-bundle">
             <div class="vertical-align-parent inherit">
@@ -81,8 +81,8 @@
 
       <div id="savedList" style="{{ list }}">
         <div ng-repeat="item in savedPlaylists track by $index">
-          <div id="select">
-            <span ng-click="usePlaylist(item)">{{ item }}</span>
+          <div id="select" ng-click="usePlaylist(item)">
+            <span>{{ item }}</span>
           </div>
         </div>
       </div>

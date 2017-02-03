@@ -15,8 +15,12 @@ angular.module('rain.weather', [])
     'Snow': '/assets/Snow.png',
     'Clear': '/assets/Sun.png',
     'Extreme': '/assets/Tornado.png',
-    'Fog': '/assets/Haze.png',
+    'Fog': '/assets/Haze.png'
   };
+
+  if (!$window.localStorage.userName) {
+    $scope.showPlaylist = 'display: none';
+  }
 
   var shuffle = function(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -200,12 +204,13 @@ angular.module('rain.weather', [])
   }
 
   $scope.usePlaylist = function(playlist) {
-    console.log("using", playlist)
+    $scope.list = 'display: none';
     $window.localStorage.playlistName = playlist;
+    $scope.currentPlaylist = playlist;
     Playlists.getPlaylist({
       name: playlist
-    })
-    location.reload();
+    });
+    displayComments();
   }
 
   var updateUser = function(data, prop, val, meth) {
@@ -218,11 +223,6 @@ angular.module('rain.weather', [])
   };
 
   var updatePlaylist = function(data, prop, val, meth) {
-    console.log("inside updatePlaylist")
-    console.log("data", data)
-    console.log('prop', prop)
-    console.log("val", val)
-    console.log("meth", meth)
     return Playlists.updatePlaylist({
       _id: data[0]._id,
       property: prop,
@@ -230,6 +230,20 @@ angular.module('rain.weather', [])
       method: meth
     });
   };
+
+  displayComments = function() {
+    if ($scope.currentPlaylist) {
+      Playlists.getPlaylist({
+        name: $window.localStorage.playlistName
+      }).then(function(playlist) {
+        console.log("playlist", playlist[0]);
+        $scope.comments = playlist[0].comments;
+      })
+      console.log("displayComments")
+    }
+  }
+
+  displayComments();
 
   $scope.postComment = function() {
     console.log("window playlistName", $window.localStorage.playlistName);
@@ -287,11 +301,13 @@ angular.module('rain.weather', [])
   $scope.logOut = function() {
     $window.localStorage.removeItem('userName');
     $window.localStorage.removeItem('session');
+    $window.localStorage.removeItem('playlistName');
+    console.log($window.localStorage);
     location.reload();
   };
 
   $scope.logIn = function() {
-    console.log('location:', location)
+    $scope.showPlaylist = 'display: inline';
     var currentSession = generateSession();
     Users.getUser({ userName: $scope.username }).then(function(data) {
       if (!data.length) {
