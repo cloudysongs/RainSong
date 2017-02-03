@@ -34,6 +34,8 @@
             <span style="{{ showPlaylist }}">Current Playlist:<br>{{ currentPlaylist }} </span>
           </div>
           <div class="col-xs-6 inherit" id="search-bundle">
+            <div class="mobile search dropdown">
+            </div>
             <div class="vertical-align-parent inherit">
               <form ng-submit="getWeatherByInput()" id="manualSearch">
                 <input ng-model="city" placeholder="Search by city" id="city-search" required />
