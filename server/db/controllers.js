@@ -103,6 +103,7 @@ module.exports = {
       Playlist.findByIdAndUpdate(req.body._id, {
         [req.body.method]: {[req.body.property]: req.body.value}
       }).then(function(resp) {
+        console.log('resp', resp)
         res.json(resp);
       });
     }

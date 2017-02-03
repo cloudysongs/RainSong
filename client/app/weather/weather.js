@@ -234,6 +234,7 @@ angular.module('rain.weather', [])
       Playlists.getPlaylist({
         name: $window.localStorage.playlistName
       }).then(function(playlist) {
+<<<<<<< 0d7c0db2eb6f39bd7e6a9a3a2bc0b212dbde9631
         updatePlaylist(playlist, 'videos', video, '$addToSet');
       })
     }
@@ -251,6 +252,15 @@ angular.module('rain.weather', [])
         }
       })
     })
+=======
+        console.log(playlist);
+        console.log('video', video)
+        updatePlaylist(playlist, 'videos', video, '$addToSet').then(function(updated) {
+          console.log(updated);
+        })
+      })
+    }
+>>>>>>> Implement add video to playlist feature and other bug fixes
   }
 
   displayComments = function() {
@@ -258,6 +268,10 @@ angular.module('rain.weather', [])
       Playlists.getPlaylist({
         name: $window.localStorage.playlistName
       }).then(function(playlist) {
+<<<<<<< 0d7c0db2eb6f39bd7e6a9a3a2bc0b212dbde9631
+=======
+        console.log("playlist", playlist[0]);
+>>>>>>> Implement add video to playlist feature and other bug fixes
         $scope.comments = playlist[0].comments.reverse();
       })
     }
