@@ -144,7 +144,6 @@ angular.module('rain.services', [])
         url: '/api/playlists',
         params: name
       }).then(function(resp) {
-        console.log("result of get:", resp.data);
         return resp.data;
       });
     },
