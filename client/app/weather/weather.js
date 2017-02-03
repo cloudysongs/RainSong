@@ -230,6 +230,7 @@ angular.module('rain.weather', [])
         })
       })
     }
+    $scope.add = 'display: none';
   }
 
   displayComments = function() {
