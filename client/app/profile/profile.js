@@ -3,15 +3,18 @@ angular.module('rain.profile', [])
 .controller('profile', ['$scope', '$sce', '$window', 'Weather', 'Video', 'Comments', 'Users', 'Playlists', 'Route', function($scope, $sce, $window, Weather, Video, Comments, Users, Playlists, Route) {
 
   $scope.route = Route.route;
-
-  var generateSession = function() {
-    var output = '';
-    while (output.length < 10) { output += Math.floor(Math.random() * 10); }
-    return output;
-  };
+  $scope.username = $window.localStorage.userName;
+  $scope.playlists = null;
 
   if ($window.localStorage.userName) {
     Users.getUser({ userName: $window.localStorage.userName }).then(function(data) {
+      $scope.playlists = data[0].playlists.map(item => ({ name: item }));
+      for (let playlist of $scope.playlists) {
+        Comments.getComments(playlist.name, $scope.username)
+        .then((comments) => {
+          playlist.comments = comments;
+        });
+      }
       if (!data.length) {
         $window.localStorage.removeItem('userName');
       } else {
@@ -20,11 +23,11 @@ angular.module('rain.profile', [])
           location.reload();
         } else {
           Weather.getWeatherByCity(data[0].lastLocation).then(function(data) {
-            $scope.weather = 'Weather: ' + data.list[0].weather[0].main;
-            $scope.loc = data.city.name + ', ' + data.city.country;
-            $scope.location = 'Location: ' + $scope.loc;
-            getPlaylist(data.list[0].weather[0].main);
-            $scope.icon = weatherIcons[data.list[0].weather[0].main];
+            // $scope.weather = 'Weather: ' + data.list[0].weather[0].main;
+            // $scope.loc = data.city.name + ', ' + data.city.country;
+            // $scope.location = 'Location: ' + $scope.loc;
+            // getPlaylist(data.list[0].weather[0].main);
+            // $scope.icon = weatherIcons[data.list[0].weather[0].main];
           });
 
           $scope.savedPlaylists = data[0].playlists;
@@ -42,7 +45,6 @@ angular.module('rain.profile', [])
     $window.localStorage.removeItem('userName');
     $window.localStorage.removeItem('session');
     $window.localStorage.removeItem('playlistName');
-    console.log($window.localStorage);
     Route.route('/');
   };
 
