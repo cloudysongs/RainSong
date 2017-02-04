@@ -2,6 +2,18 @@ html {
   overflow-x: hidden;
 }
 
+.mobile {
+  display: hidden;
+}
+
+.col-xs-6 {
+  height: 100%;
+}
+
+.col-xs-9 {
+  height: 100%;
+}
+
 body {
   background: url('https://source.unsplash.com/category/nature') no-repeat center center fixed; 
   -webkit-background-size: cover;
@@ -11,7 +23,41 @@ body {
   height: 100vh;
 }
 
+.app {
+  height: 100%;
+}
+
+.top-nav-right {
+  height: 100%;
+}
+
+.top-nav-right > form {
+  height: 100%;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.top-nav-right {
+  height: 100%;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+  float: right;
+}
+
+.top-nav-right > form > input {
+  width: 30%;
+  margin: 0.25%;
+}
+
+.top-nav-right > form > button {
+  max-width: 30%;
+  margin: 0.25%;
+}
+
 #main-content {
+  height: 100%;
   /*background-color: #fff;*/
 }
 
@@ -24,6 +70,13 @@ body {
 
 textarea {
   resize: none;
+}
+
+.comment-box {
+  background-color: #fff;
+  overflow: scroll;
+  height: 52%;
+  width: 100.1%;
 }
 
 #CommentsHeader {
@@ -47,7 +100,7 @@ textarea {
 }
 
 #header {
-  /*height: 50px;*/
+  height: 7vh;
   background-color: #FFFFFF;
   margin: 0;
   overflow: hidden;
@@ -128,19 +181,33 @@ iframe {
 }
 
 #playList {
+  padding: 0;
   background-color: #000000;
-  height: 120%;
+  height: 103.9%;
   overflow-y: scroll;
   overflow-x: hidden;
   color: #FFFFFF;
   float: right;
 }
 
+.playlist-item > div {
+  padding: 0%;
+}
+
+.playlist-item {
+  padding: 0;
+}
+
+#thumb {
+  float: left;
+  clear: left;
+}
+
 .right {
   float: right;
 }
 
-.container-fluid > #weather-search {
+#weather-search {
   background-color: #fff;
   padding: 0.5%;
   padding: 0;
@@ -159,19 +226,35 @@ iframe {
 }
 
 #search-bundle {
-  padding: 0;
+  padding: 0.5%;
   text-align: right;
 }
 
 .vertical-align-parent {
+  height: 100%;
   display: inline-flex;
   justify-content: flex-end;
   align-items: center;
 }
 
+.vertical-align-parent > form {
+  height: 100%;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.vertical-align-parent > form > input {
+  margin-top: 3%;
+}
+
 #manualSearch {
   display: inline;
   max-width: 70%;
+}
+
+#manualSearch > button {
+  margin: 2.5%;
 }
 
 #mic-button {
@@ -277,12 +360,27 @@ input {
 	border: 1px solid #999;
 }
 
-
-
 #comment_form > input {
   max-height: 6vh;
 }
 
 #comments {
   padding: 2%;
+}
+
+@media (max-width: 640px) {
+  .vertical-align-parent, .top-nav-right {
+    display: none;
+  }
+  .mobile {
+    display: contents;
+  }
+
+  .search {
+    background-image: url(http://www.uidownload.com/files/544/391/662/common-glass-lookup-magnifier-magnifying-magnifying-glass-search-zoom-icon.png);
+    background-size: 100% 100%;
+    height: 100%;
+    width: 30%;
+    float: right; 
+  }
 }

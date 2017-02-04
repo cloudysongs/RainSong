@@ -5,26 +5,26 @@
   </div>
 
   <div class="col-xs-6">
-    <div class="row-fluid">
-      <form ng-submit="logIn()" class="right" style="{{ logInButton }}">
+    <div class="top-nav-right" style="{{ logInButton }}">
+      <form ng-submit="logIn()" class="right">
         <input ng-model="username" placeholder="Username" minlength="4" required />
         <input type="password" ng-model="password" placeholder="Password" minlength="6" required />
         <button>Login / Signup</button>
       </form>
     </div>
 
-    <div class="row-fluid">
-      <button ng-click="logOut()" class="right" style="{{ logOutButton }}">Log Out</button>
+    <div class="top-nav-right" style="{{ logOutButton }}">
+      <button ng-click="logOut()" class="right">Log Out</button>
       <span class="right" id="currentUser">{{ currentUser }}</span>
       <span class="right">{{ error }}</span>
     </div>
   </div>
 </div>
 
-<div ng-init="getWeatherGeoLocation()" class="container-fluid" style="padding: 0">
+<div ng-init="getWeatherGeoLocation()" class="container-fluid main-content" style="padding: 0; height: 93%">
   <div class="row-fluid" id="main-content">
     <div class="col-xs-9" style="padding: 0">
-      <div class="container-fluid" style="padding: 0">
+      <!--<div class="container-fluid" style="padding: 0">-->
         <div class="row-fluid" id="weather-search">
           <div class="col-xs-6 inherit">
             <img class="col-xs-1" id="weatherIcon" ng-src="{{icon}}"/>
@@ -36,6 +36,9 @@
           </div>
 
           <div class="col-xs-6 inherit" id="search-bundle">
+
+            <div class="mobile search dropdown">
+            </div>
 
             <div class="vertical-align-parent inherit">
 
@@ -68,15 +71,18 @@
             </div>
           </div>
         </div>
-        </div>
-      </div>
+
+      <!--</div>-->
+
       <div class="row-fluid">
         <div class="iframe-ar">
           <iframe src="{{ data }}" allowfullscreen="true"></iframe>
         </div>
       </div>
-      <div class="row-fluid" style="
-    background-color: #fff">
+
+      <div class="row-fluid comment-box">
+        <!--<div class="col-xs-6">-->
+
           <div>
             <form ng-Submit="postComment()" id="comment_form">
               <input contenteditable="" ng-model="commentInput" rows="8" name="comment" id="comment" placeholder="Comment" maxlength="300" required aria-multiline="true" rows='1' />
@@ -113,9 +119,12 @@
 
       <div class="item" ng-Repeat="item in playlist track by $index">
         <div class="row-fluid" ng-Click="playlistClick(item, playlist)">
-          <img class="col-xs-6" id="thumb" src="{{ item.snippet.thumbnails.default.url }}" />
-          <div class="col-xs-6">
-            <span>{{ item.snippet.title }}</span>
+          <div class="col-xs-12 playlist-item" style="padding: 3%;">
+            <img id="thumb" src="{{ item.snippet.thumbnails.default.url }}" style="padding-right: 3%; margin-top: -4%;" />
+            <span>
+              {{ item.snippet.title }}
+            </span>
+            <!--{{ item.snippet.title }}-->
           </div>
         </div>
       </div>
