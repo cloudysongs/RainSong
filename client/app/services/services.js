@@ -131,6 +131,22 @@ angular.module('rain.services', [])
       }).then(function(resp) {
         return resp;
       });
+    },
+
+    deleteUser: function(userName) {
+      return $http({
+        method: 'DELETE',
+        url: '/api/users',
+        headers: {
+          'content-type': 'application/json'
+        },
+        data: { userName }
+      }).then(function(confirmation) {
+        return confirmation;
+      })
+      .catch(function(err) {
+        console.err(err);
+      });
     }
   };
 }])
