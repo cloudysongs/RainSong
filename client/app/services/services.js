@@ -166,6 +166,13 @@ angular.module('rain.services', [])
         return resp;
       });
     }
-  }
-}]);
+  };
+}])
 
+.factory('Route', ['$location', function($location) {
+  return {
+    route: function(route) {
+      $location.path(route);
+    }
+  };
+}]);
