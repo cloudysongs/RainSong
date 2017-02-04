@@ -1,6 +1,7 @@
 angular.module('rain.weather', [])
 
-.controller('weatherControl', ['$scope', '$sce', '$window', 'Weather', 'Video', 'Comments', 'Users', 'Playlists', function($scope, $sce, $window, Weather, Video, Comments, Users, Playlists) {
+.controller('weatherControl', ['$scope', '$sce', '$window', 'Weather', 'Video', 'Comments', 'Users', 'Playlists', 'Route', function($scope, $sce, $window, Weather, Video, Comments, Users, Playlists, Route) {
+  $scope.route = Route.route;
   $scope.height = screen.height / 1.2;
   $scope.weather = 'Loading...';
   $scope.list = 'display: none';
