@@ -7,14 +7,12 @@ var request = require('request');
 module.exports = {
   comment: {
     get: function(req, res) {
-      console.log("get", req.query);
       Comment.find(req.query).then(function(resp) {
         res.json(resp);
       });
     },
 
     post: function(req, res) {
-      console.log(req.body)
       var params = {
         userName: req.body.userName,
         text: req.body.text,
@@ -93,14 +91,20 @@ module.exports = {
               res.send(data);
             }
           });
-        })
+        });
       } else {
         Playlist.findByIdAndUpdate(req.body._id, {
           [req.body.method]: {[req.body.property]: req.body.value}
         }).then(function(resp) {
           res.json(resp);
-        })
+        });
       }
+      var val = req.body.value;
+      Playlist.findByIdAndUpdate(req.body._id, {
+        [req.body.method]: {[req.body.property]: req.body.value}
+      }).then(function(resp) {
+        res.json(resp);
+      });
     }
   },
 
