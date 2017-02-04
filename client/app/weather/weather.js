@@ -194,6 +194,9 @@ angular.module('rain.weather', [])
     $scope.currentPlaylist = playlist;
     Playlists.getPlaylist({
       name: playlist
+    }).then(function(playlist) {
+      console.log("playlist", playlist)
+      $scope.playlist = playlist[0].videos;
     });
     displayComments();
   }
@@ -238,7 +241,6 @@ angular.module('rain.weather', [])
       Playlists.getPlaylist({
         name: $window.localStorage.playlistName
       }).then(function(playlist) {
-        console.log("playlist", playlist[0]);
         $scope.comments = playlist[0].comments.reverse();
       })
     }
