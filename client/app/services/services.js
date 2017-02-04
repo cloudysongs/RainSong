@@ -79,11 +79,11 @@ angular.module('rain.services', [])
 
 .factory('Comments', ['$http', function($http) {
   return {
-    getComments: function(playlistName) {
+    getComments: function(playlistName, userName) {
       return $http({
         method: 'GET',
         url: '/api/comments',
-        params: {playlistName: playlistName}
+        params: userName ? { playlistName, userName } : {playlistName: playlistName}
       }).then(function(resp) {
         return resp.data;
       });
