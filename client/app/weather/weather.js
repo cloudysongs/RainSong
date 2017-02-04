@@ -312,6 +312,7 @@ angular.module('rain.weather', [])
           $scope.currentUser = 'Logged in as - ' + data.config.data.userName;
           $window.localStorage.userName = data.config.data.userName;
           $window.localStorage.compareSession = currentSession;
+          $window.localStorage.userId = data.config.data._id;
         });
         $scope.logInButton = 'display: none';
         $scope.logOutButton = '';
@@ -325,6 +326,7 @@ angular.module('rain.weather', [])
               $scope.currentUser = 'Logged in as - ' + update.data.userName;
               $window.localStorage.userName = update.data.userName;
               $window.localStorage.compareSession = update.config.data.value;
+              $window.localStorage.userId = update.config.data._id;
             });
             $scope.save = 'display: unset';
             $scope.logInButton = 'display: none';
