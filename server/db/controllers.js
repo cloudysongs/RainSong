@@ -46,6 +46,17 @@ module.exports = {
       }).then(function(resp) {
         res.json(resp);
       });
+    },
+
+    deleteUser: function(req, res) {
+      const { userName } = req.body;
+      User.remove({ userName })
+      .then((user) => {
+        res.status(202).json(user);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
     }
   },
 
