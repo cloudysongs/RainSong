@@ -6,6 +6,7 @@ angular.module('rain.weather', [])
   $scope.list = 'display: none';
   $scope.add = 'display: none';
   $scope.store = 'display: none';
+  $scope.remove = 'display: none';
   $scope.error = '';
   $scope.currentPlaylist = $window.localStorage.playlistName;
   var weatherIcons = {
@@ -119,6 +120,14 @@ angular.module('rain.weather', [])
     }
   }
 
+  $scope.showRemove = function() {
+    if ($scope.remove === 'display: block') {
+      $scope.remove = 'display: none';
+    } else {
+      $scope.remove = 'display: block';
+    }
+  }
+
   $scope.getWeatherByInput = function() {
     Weather.getWeatherByCity($scope.city).then(function(data) {
       $scope.weather = 'Weather: ' + data.list[0].weather[0].main;
@@ -178,7 +187,6 @@ angular.module('rain.weather', [])
         comments: [],
         videos: []
       });
-
       updateUser(user, 'playlists', playlistName, '$addToSet').then(function() {
         Users.getUser({ userName: $window.localStorage.userName }).then(function(updated) {
           $scope.savedPlaylists = updated[0].playlists;
@@ -195,7 +203,6 @@ angular.module('rain.weather', [])
     Playlists.getPlaylist({
       name: playlist
     }).then(function(playlist) {
-      console.log("playlist", playlist)
       $scope.playlist = playlist[0].videos;
     });
     displayComments();
@@ -226,14 +233,23 @@ angular.module('rain.weather', [])
       Playlists.getPlaylist({
         name: $window.localStorage.playlistName
       }).then(function(playlist) {
-        console.log(playlist);
-        console.log('video', video)
-        updatePlaylist(playlist, 'videos', video, '$addToSet').then(function(updated) {
-          console.log(updated);
-        })
+        updatePlaylist(playlist, 'videos', video, '$addToSet');
       })
     }
     $scope.add = 'display: none';
+  }
+
+  $scope.removeFromPlaylist = function() {
+    $scope.remove = 'display: none';
+    Playlists.getPlaylist({
+      name: $window.localStorage.playlistName
+    }).then(function(playlist) {
+      playlist[0].videos.forEach(function(vid) {
+        if (vid.snippet.title === video.snippet.title) {
+          updatePlaylist(playlist, 'videos', vid, '$pull')
+        }
+      })
+    })
   }
 
   displayComments = function() {
@@ -249,7 +265,6 @@ angular.module('rain.weather', [])
   displayComments();
 
   $scope.postComment = function() {
-    console.log("window playlistName", $window.localStorage.playlistName);
     var comment = {
       userName: $window.localStorage.userName || 'Anonymous',
       text: $scope.commentInput,

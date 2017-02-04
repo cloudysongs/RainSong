@@ -58,6 +58,16 @@
             </div>
           </div>
         </div>
+          <div id="add" style='display: inline;'>
+          <button ng-click="showRemove()">Remove from playlist</button>
+          <div id="savedList" style="{{ remove }}">
+            <div ng-repeat="item in savedPlaylists track by $index">
+              <div id="select" ng-click="removeFromPlaylist()">
+                <span>{{ item }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
       <div class="row-fluid">
