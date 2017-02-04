@@ -6,6 +6,21 @@ angular.module('rain.profile', [])
   $scope.username = $window.localStorage.userName;
   $scope.playlists = null;
   $scope.deleteUser = Users.deleteUser;
+  $scope.oldPassword = '';
+  $scope.newPassword = '';
+  $scope.error = '';
+  $scope.changePassword = function() {
+    Users.getUser({ userName: $scope.username }).then(function(data) {
+      if (!data.length) {
+        $scope.error = 'Wrong password, try again.';
+      } else if (data[0].password === $scope.oldPassword) {
+        const update = Object.assign(data[0], { method: '$set', property: 'password', value: $scope.newPassword });
+        Users.updateUser(update);
+      }
+      $scope.oldPassword = '';
+      $scope.newPassword = '';
+    });
+  };
 
   if ($window.localStorage.userName) {
     Users.getUser({ userName: $window.localStorage.userName }).then(function(data) {
@@ -23,14 +38,7 @@ angular.module('rain.profile', [])
           $window.localStorage.removeItem('userName');
           location.reload();
         } else {
-          Weather.getWeatherByCity(data[0].lastLocation).then(function(data) {
-            // $scope.weather = 'Weather: ' + data.list[0].weather[0].main;
-            // $scope.loc = data.city.name + ', ' + data.city.country;
-            // $scope.location = 'Location: ' + $scope.loc;
-            // getPlaylist(data.list[0].weather[0].main);
-            // $scope.icon = weatherIcons[data.list[0].weather[0].main];
-          });
-
+          Weather.getWeatherByCity(data[0].lastLocation);
           $scope.savedPlaylists = data[0].playlists;
           $scope.save = 'display: unset';
           $scope.currentUser = 'Logged in as - ' + $window.localStorage.userName;
@@ -41,12 +49,10 @@ angular.module('rain.profile', [])
   } else {
     $scope.logOutButton = 'display: none';
   }
-
   $scope.logOut = function() {
     $window.localStorage.removeItem('userName');
     $window.localStorage.removeItem('session');
     $window.localStorage.removeItem('playlistName');
     Route.route('/');
   };
-
 }]);
