@@ -5,6 +5,7 @@ angular.module('rain.profile', [])
   $scope.route = Route.route;
   $scope.username = $window.localStorage.userName;
   $scope.playlists = null;
+  $scope.deleteUser = Users.deleteUser;
 
   if ($window.localStorage.userName) {
     Users.getUser({ userName: $window.localStorage.userName }).then(function(data) {
