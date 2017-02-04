@@ -2,6 +2,8 @@ angular.module('rain.profile', [])
 
 .controller('profile', ['$scope', '$sce', '$window', 'Weather', 'Video', 'Comments', 'Users', 'Playlists', 'Route', function($scope, $sce, $window, Weather, Video, Comments, Users, Playlists, Route) {
 
+  $scope.route = Route.route;
+
   var generateSession = function() {
     var output = '';
     while (output.length < 10) { output += Math.floor(Math.random() * 10); }
@@ -42,7 +44,6 @@ angular.module('rain.profile', [])
     $window.localStorage.removeItem('playlistName');
     console.log($window.localStorage);
     Route.route('/');
-    // location.reload();
   };
 
 }]);

@@ -14,6 +14,7 @@
     </div>
 
     <div class="top-nav-right" style="{{ logOutButton }}">
+      <button ng-click="route('/')" class="right back-to-rainy-songs">Back to rainy songs</button>
       <button ng-click="logOut()" class="right">Log Out</button>
       <span class="right" id="currentUser">{{ currentUser }}</span>
       <span class="right">{{ error }}</span>
