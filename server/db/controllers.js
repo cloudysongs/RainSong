@@ -103,9 +103,31 @@ module.exports = {
       Playlist.findByIdAndUpdate(req.body._id, {
         [req.body.method]: {[req.body.property]: req.body.value}
       }).then(function(resp) {
-        console.log('resp', resp)
         res.json(resp);
       });
+      if (req.body.method === '$pull') {
+        Playlist.findById(req.body._id, function(err, data) {
+          if (err) throw err;
+          for (var i = 0; i < data.videos.length; i++) {
+            if (data.videos[i].etag === req.body.value.etag) {
+              data.videos.splice(i, 1);
+            }
+          }
+          data.save(function(err, playlist) {
+            if (err) {
+              res.status(500).send(err);
+            } else {
+              res.send(data);
+            }
+          });
+        });
+      } else {
+        Playlist.findByIdAndUpdate(req.body._id, {
+          [req.body.method]: {[req.body.property]: req.body.value}
+        }).then(function(resp) {
+          res.json(resp);
+        });
+      }
     }
   },
 

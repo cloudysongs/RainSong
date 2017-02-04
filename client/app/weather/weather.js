@@ -204,10 +204,7 @@ angular.module('rain.weather', [])
     Playlists.getPlaylist({
       name: playlist
     }).then(function(playlist) {
-<<<<<<< 965fda5c106411ae63fdceb6c625324649094e3f
-=======
       console.log("playlist", playlist)
->>>>>>> addToPlaylist functionality
       $scope.playlist = playlist[0].videos;
     });
     displayComments();
@@ -238,6 +235,7 @@ angular.module('rain.weather', [])
       Playlists.getPlaylist({
         name: $window.localStorage.playlistName
       }).then(function(playlist) {
+<<<<<<< e3d87ee420db89878d7bc63e3697779ba8e87585
 <<<<<<< 0d7c0db2eb6f39bd7e6a9a3a2bc0b212dbde9631
         updatePlaylist(playlist, 'videos', video, '$addToSet');
       })
@@ -262,9 +260,25 @@ angular.module('rain.weather', [])
         updatePlaylist(playlist, 'videos', video, '$addToSet').then(function(updated) {
           console.log(updated);
         })
+=======
+        updatePlaylist(playlist, 'videos', video, '$addToSet');
+>>>>>>> Add functionality to add/remove songs from playlist
       })
     }
 >>>>>>> Implement add video to playlist feature and other bug fixes
+  }
+
+  $scope.removeFromPlaylist = function() {
+    $scope.remove = 'display: none';
+    Playlists.getPlaylist({
+      name: $window.localStorage.playlistName
+    }).then(function(playlist) {
+      playlist[0].videos.forEach(function(vid) {
+        if (vid.snippet.title === video.snippet.title) {
+          updatePlaylist(playlist, 'videos', vid, '$pull')
+        }
+      })
+    })
   }
 
   displayComments = function() {
