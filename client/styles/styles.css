@@ -207,6 +207,14 @@ iframe {
   float: right;
 }
 
+.no-bullets {
+  list-style-type: none;
+}
+
+.list-left-padding-small {
+  /*padding-left: small;*/
+}
+
 #weather-search {
   background-color: #fff;
   padding: 0.5%;
@@ -386,6 +394,11 @@ input {
 }
 
 .profile-content {
+  overflow: scroll;
+}
+
+.profile-content > #profile-playlists {
+  margin-top: 7px;
 }
 
 .profile-actions {
