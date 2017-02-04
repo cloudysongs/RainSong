@@ -30,36 +30,65 @@
             <img class="col-xs-1" id="weatherIcon" ng-src="{{icon}}"/>
             <span id="info">{{ weather }}<br></span><span id="info">{{ location }}</span>
           </div>
+
           <div>
             <span style="{{ showPlaylist }}">Current Playlist:<br>{{ currentPlaylist }} </span>
           </div>
+
           <div class="col-xs-6 inherit" id="search-bundle">
+
             <div class="mobile search dropdown">
             </div>
+
             <div class="vertical-align-parent inherit">
+
               <form ng-submit="getWeatherByInput()" id="manualSearch">
                 <input ng-model="city" placeholder="Search by city" id="city-search" required />
                 <button>Search</button>
               </form>
               <button ng-click="mic()" id="mic-button"><img id="mic" src="/assets/mic.png"></button>
+
+            </div>
+
+          </div>
+          <div id="add" style='display: inline;'>
+          <button ng-click="showAdd()">Add to playlist</button>
+          <div id="savedList" style="{{ add }}">
+            <div ng-repeat="item in savedPlaylists track by $index">
+              <div id="select" ng-click="addToPlaylist()">
+                <span>{{ item }}</span>
+              </div>
             </div>
           </div>
         </div>
+          <div id="add" style='display: inline;'>
+          <button ng-click="showRemove()">Remove from playlist</button>
+          <div id="savedList" style="{{ remove }}">
+            <div ng-repeat="item in savedPlaylists track by $index">
+              <div id="select" ng-click="removeFromPlaylist()">
+                <span>{{ item }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       <!--</div>-->
+
       <div class="row-fluid">
         <div class="iframe-ar">
           <iframe src="{{ data }}" allowfullscreen="true"></iframe>
         </div>
       </div>
+
       <div class="row-fluid comment-box">
         <!--<div class="col-xs-6">-->
+
           <div>
             <form ng-Submit="postComment()" id="comment_form">
               <input contenteditable="" ng-model="commentInput" rows="8" name="comment" id="comment" placeholder="Comment" maxlength="300" required aria-multiline="true" rows='1' />
               <input type="submit" name="submit" value="Add Comment">
             </form>
           </div>
-        <!--</div>-->
         <div id="comments">
           <span id="CommentsHeader">Comments:</span>
           <span class="comment" ng-repeat="comment in comments">

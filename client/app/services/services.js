@@ -90,7 +90,6 @@ angular.module('rain.services', [])
     },
 
     postComments: function(data) {
-      console.log('postcomment:', data)
       return $http({
         method: 'POST',
         url: '/api/comments',
@@ -149,7 +148,6 @@ angular.module('rain.services', [])
     },
 
     newPlaylist: function(playlist) {
-      console.log('playlist:', playlist);
       return $http({
         method: 'POST',
         url: '/api/playlists',
@@ -160,21 +158,10 @@ angular.module('rain.services', [])
     },
 
     updatePlaylist: function(playlist) {
-      console.log(playlist)
       return $http({
         method: 'PUT',
         url: '/api/playlists',
         data: playlist
-      }).then(function(resp) {
-        return resp;
-      });
-    },
-
-    deleteSong: function(song) {
-      return $http({
-        method: 'DELETE',
-        url: '/api/playlists',
-        data: song
       }).then(function(resp) {
         return resp;
       });
