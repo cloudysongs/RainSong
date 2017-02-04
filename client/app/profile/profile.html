@@ -36,12 +36,13 @@
 <div class="col-xs-3 profile profile-actions">
   <div>
     <h4>Change password</h4>
-    <form action="#">
+    <form ng-submit="changePassword(oldPassword, newPassword)">
       <label for="old-password">Old password</label>
-      <input type="password" id="old-password">
+      <input ng-model="oldPassword" type="password" id="old-password">
       <label for="new-password">New password</label>
-      <input type="password" id="new-password">
+      <input ng-model="newPassword" type="password" id="new-password">
       <input type="submit">
+      <span>{{error}}</span>
     </form>
   </div>
   <div>
@@ -49,4 +50,3 @@
     <button ng-click="logOut(); deleteUser(username)">Don't leave me :(</button>
   </div>
 </div>
-<pre>{{playlists}}</pre>
