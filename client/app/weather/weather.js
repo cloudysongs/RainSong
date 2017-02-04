@@ -204,6 +204,10 @@ angular.module('rain.weather', [])
     Playlists.getPlaylist({
       name: playlist
     }).then(function(playlist) {
+<<<<<<< 965fda5c106411ae63fdceb6c625324649094e3f
+=======
+      console.log("playlist", playlist)
+>>>>>>> addToPlaylist functionality
       $scope.playlist = playlist[0].videos;
     });
     displayComments();
@@ -268,10 +272,13 @@ angular.module('rain.weather', [])
       Playlists.getPlaylist({
         name: $window.localStorage.playlistName
       }).then(function(playlist) {
+<<<<<<< 965fda5c106411ae63fdceb6c625324649094e3f
 <<<<<<< 0d7c0db2eb6f39bd7e6a9a3a2bc0b212dbde9631
 =======
         console.log("playlist", playlist[0]);
 >>>>>>> Implement add video to playlist feature and other bug fixes
+=======
+>>>>>>> addToPlaylist functionality
         $scope.comments = playlist[0].comments.reverse();
       })
     }
