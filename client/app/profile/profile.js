@@ -9,13 +9,19 @@ angular.module('rain.profile', [])
   $scope.oldPassword = '';
   $scope.newPassword = '';
   $scope.error = '';
+  $scope.deleteAccount = function() {
+    if ($window.confirm('Do you really want to leave?')) {
+      $scope.logOut();
+      $scope.deleteUser($scope.username);
+    }
+  };
   $scope.changePassword = function() {
     Users.getUser({ userName: $scope.username }).then(function(data) {
-      if (!data.length) {
-        $scope.error = 'Wrong password, try again.';
-      } else if (data[0].password === $scope.oldPassword) {
+      if (data[0].password === $scope.oldPassword) {
         const update = Object.assign(data[0], { method: '$set', property: 'password', value: $scope.newPassword });
         Users.updateUser(update);
+      } else {
+        $scope.error = 'Wrong password, try again.';
       }
       $scope.oldPassword = '';
       $scope.newPassword = '';
