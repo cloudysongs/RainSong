@@ -212,7 +212,7 @@ iframe {
 }
 
 .list-left-padding-small {
-  /*padding-left: small;*/
+  padding-left: 2.5%;
 }
 
 #weather-search {
@@ -379,7 +379,12 @@ input {
 
 .back-to-rainy-songs {
   min-width: 50%;
-  margin-right: 1%; 
+  margin-right: 1%;
+	color: #333;
+}
+
+.back-to-rainy-songs:link {
+  text-decoration: none;
 }
 
 /*====================================
@@ -402,7 +407,50 @@ input {
 }
 
 .profile-actions {
-  border-left: solid black 0.1em;
+  border-left: solid #333 0.1em;
+}
+
+.profile.profile-actions {
+  padding: 1%;
+}
+
+.delete-account {
+  float: left;
+}
+
+.change-password {
+  margin: 2% 0 2% 0;
+}
+
+.change-password > label {
+  min-width: 37.5%;
+}
+
+.change-password > input {
+  min-width: 57.5%;
+}
+
+.change-password-submit {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.change-password-submit > input {
+  padding-right: 1%;
+  padding-left: 1%; 
+}
+
+.change-password-submit > span {
+  color: #c9302c;
+}
+
+.action-item {
+  border-bottom: solid #333 0.1em
+}
+
+.delete-account {
+  margin-bottom: 5%;
+  width: 100%; 
 }
 
 @media (max-width: 640px) {
