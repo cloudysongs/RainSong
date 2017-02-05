@@ -1,6 +1,5 @@
 <div id="header">
   <div class="col-xs-6">
-    <img id="logoImage" src="/assets/cloudLogo.png" >
     <span id="logo">RainSong</span>
   </div>
 
@@ -15,7 +14,7 @@
 
     <div class="top-nav-right" style="{{ logOutButton }}">
       <button ng-click="logOut()" class="right">Log Out</button>
-      <a ng-click="route('profile')">
+      <a href="/#!/profile">
         <span class="right" id="currentUser">{{ currentUser }}</span>
       </a>
       <span class="right">{{ error }}</span>
