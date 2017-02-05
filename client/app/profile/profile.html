@@ -1,6 +1,5 @@
 <div id="header">
   <div class="col-xs-6">
-    <img id="logoImage" src="/assets/cloudLogo.png" >
     <span id="logo">RainSong</span>
   </div>
 
@@ -14,7 +13,7 @@
     </div>
 
     <div class="top-nav-right" style="{{ logOutButton }}">
-      <button ng-click="route('/')" class="right back-to-rainy-songs">Back to rainy songs</button>
+      <a href="/#!/" class="right back-to-rainy-songs"><button>Back to rainy songs</button></a>
       <button ng-click="logOut()" class="right">Log Out</button>
       <span class="right" id="currentUser">{{ currentUser }}</span>
       <span class="right">{{ error }}</span>
@@ -23,7 +22,7 @@
 </div>
 
 <div class="col-xs-9 profile profile-content">
-  <h1 id="profile-playlists">LOOK AT ALL THE COOL PLAYLISTS YOU MADE, SON!</h1>
+  <h1 id="profile-playlists">Your beautiful playlist(s)</h1>
   <ul ng-repeat="playlist in playlists track by $index" class="no-bullets list-left-padding-small">
     <li>
       <h3>{{ playlist.name }}</h2>
@@ -34,19 +33,25 @@
   </ul>
 </div>
 <div class="col-xs-3 profile profile-actions">
-  <div>
+  <div class="action-item">
     <h4>Change password</h4>
     <form ng-submit="changePassword(oldPassword, newPassword)">
-      <label for="old-password">Old password</label>
-      <input ng-model="oldPassword" type="password" id="old-password">
-      <label for="new-password">New password</label>
-      <input ng-model="newPassword" type="password" id="new-password">
-      <input type="submit">
-      <span>{{error}}</span>
+      <div class="change-password">
+        <label for="old-password">Old password</label>
+        <input ng-model="oldPassword" type="password" id="old-password">
+      </div>
+      <div class="change-password">
+        <label for="new-password">New password</label>
+        <input ng-model="newPassword" type="password" id="new-password">
+      </div>
+      <div class="change-password-submit">
+        <input type="submit">
+        <span>{{error}}</span>
+      </div>
     </form>
   </div>
-  <div>
+  <div class="action-item delete-account">
     <h4>Delete account</h4>
-    <button ng-click="logOut(); deleteUser(username)">Don't leave me :(</button>
+      <button ng-click="deleteAccount()" class="delete-account">Don't leave me...</button>
   </div>
 </div>
