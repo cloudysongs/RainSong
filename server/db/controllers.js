@@ -7,14 +7,12 @@ var request = require('request');
 module.exports = {
   comment: {
     get: function(req, res) {
-      console.log("get", req.query);
       Comment.find(req.query).then(function(resp) {
         res.json(resp);
       });
     },
 
     post: function(req, res) {
-      console.log(req.body)
       var params = {
         userName: req.body.userName,
         text: req.body.text,
@@ -45,6 +43,17 @@ module.exports = {
         [req.body.method]: { [req.body.property]: val }
       }).then(function(resp) {
         res.json(resp);
+      });
+    },
+
+    deleteUser: function(req, res) {
+      const { userName } = req.body;
+      User.remove({ userName })
+      .then((user) => {
+        res.status(202).json(user);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
       });
     }
   },
@@ -82,13 +91,42 @@ module.exports = {
               res.send(data);
             }
           });
-        })
+        });
       } else {
         Playlist.findByIdAndUpdate(req.body._id, {
           [req.body.method]: {[req.body.property]: req.body.value}
         }).then(function(resp) {
           res.json(resp);
-        })
+        });
+      }
+      var val = req.body.value;
+      Playlist.findByIdAndUpdate(req.body._id, {
+        [req.body.method]: {[req.body.property]: req.body.value}
+      }).then(function(resp) {
+        res.json(resp);
+      });
+      if (req.body.method === '$pull') {
+        Playlist.findById(req.body._id, function(err, data) {
+          if (err) throw err;
+          for (var i = 0; i < data.videos.length; i++) {
+            if (data.videos[i].etag === req.body.value.etag) {
+              data.videos.splice(i, 1);
+            }
+          }
+          data.save(function(err, playlist) {
+            if (err) {
+              res.status(500).send(err);
+            } else {
+              res.send(data);
+            }
+          });
+        });
+      } else {
+        Playlist.findByIdAndUpdate(req.body._id, {
+          [req.body.method]: {[req.body.property]: req.body.value}
+        }).then(function(resp) {
+          res.json(resp);
+        });
       }
     }
   },
