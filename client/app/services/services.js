@@ -79,11 +79,11 @@ angular.module('rain.services', [])
 
 .factory('Comments', ['$http', function($http) {
   return {
-    getComments: function(playlistName, userName) {
+    getComments: function(playlistName) {
       return $http({
         method: 'GET',
         url: '/api/comments',
-        params: userName ? { playlistName, userName } : {playlistName: playlistName}
+        params: {playlistName: playlistName}
       }).then(function(resp) {
         return resp.data;
       });
@@ -131,22 +131,6 @@ angular.module('rain.services', [])
       }).then(function(resp) {
         return resp;
       });
-    },
-
-    deleteUser: function(userName) {
-      return $http({
-        method: 'DELETE',
-        url: '/api/users',
-        headers: {
-          'content-type': 'application/json'
-        },
-        data: { userName }
-      }).then(function(confirmation) {
-        return confirmation;
-      })
-      .catch(function(err) {
-        console.err(err);
-      });
     }
   };
 }])
@@ -182,13 +166,6 @@ angular.module('rain.services', [])
         return resp;
       });
     }
-  };
-}])
-
-.factory('Route', ['$location', function($location) {
-  return {
-    route: function(route) {
-      $location.path(route);
-    }
-  };
+  }
 }]);
+
