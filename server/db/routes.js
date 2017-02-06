@@ -12,7 +12,6 @@ route.post('/comments', commentController.post);
 route.get('/users', userController.getUser);
 route.post('/users', userController.createUser);
 route.put('/users', userController.updateUser);
-route.delete('/users', userController.deleteUser);
 
 route.get('/playlists', playlistController.getPlaylist);
 route.post('/playlists', playlistController.createPlaylist);

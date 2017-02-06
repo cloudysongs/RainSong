@@ -1,7 +1,6 @@
 angular.module('rain.weather', [])
 
-.controller('weatherControl', ['$scope', '$sce', '$window', 'Weather', 'Video', 'Comments', 'Users', 'Playlists', 'Route', function($scope, $sce, $window, Weather, Video, Comments, Users, Playlists, Route) {
-  $scope.route = Route.route;
+.controller('weatherControl', ['$scope', '$sce', '$window', 'Weather', 'Video', 'Comments', 'Users', 'Playlists', function($scope, $sce, $window, Weather, Video, Comments, Users, Playlists) {
   $scope.height = screen.height / 1.2;
   $scope.weather = 'Loading...';
   $scope.list = 'display: none';
@@ -204,7 +203,6 @@ angular.module('rain.weather', [])
     Playlists.getPlaylist({
       name: playlist
     }).then(function(playlist) {
-      console.log("playlist", playlist)
       $scope.playlist = playlist[0].videos;
     });
     displayComments();
@@ -235,37 +233,10 @@ angular.module('rain.weather', [])
       Playlists.getPlaylist({
         name: $window.localStorage.playlistName
       }).then(function(playlist) {
-<<<<<<< e3d87ee420db89878d7bc63e3697779ba8e87585
-<<<<<<< 0d7c0db2eb6f39bd7e6a9a3a2bc0b212dbde9631
         updatePlaylist(playlist, 'videos', video, '$addToSet');
       })
     }
     $scope.add = 'display: none';
-  }
-
-  $scope.removeFromPlaylist = function() {
-    $scope.remove = 'display: none';
-    Playlists.getPlaylist({
-      name: $window.localStorage.playlistName
-    }).then(function(playlist) {
-      playlist[0].videos.forEach(function(vid) {
-        if (vid.snippet.title === video.snippet.title) {
-          updatePlaylist(playlist, 'videos', vid, '$pull')
-        }
-      })
-    })
-=======
-        console.log(playlist);
-        console.log('video', video)
-        updatePlaylist(playlist, 'videos', video, '$addToSet').then(function(updated) {
-          console.log(updated);
-        })
-=======
-        updatePlaylist(playlist, 'videos', video, '$addToSet');
->>>>>>> Add functionality to add/remove songs from playlist
-      })
-    }
->>>>>>> Implement add video to playlist feature and other bug fixes
   }
 
   $scope.removeFromPlaylist = function() {
@@ -286,13 +257,6 @@ angular.module('rain.weather', [])
       Playlists.getPlaylist({
         name: $window.localStorage.playlistName
       }).then(function(playlist) {
-<<<<<<< 965fda5c106411ae63fdceb6c625324649094e3f
-<<<<<<< 0d7c0db2eb6f39bd7e6a9a3a2bc0b212dbde9631
-=======
-        console.log("playlist", playlist[0]);
->>>>>>> Implement add video to playlist feature and other bug fixes
-=======
->>>>>>> addToPlaylist functionality
         $scope.comments = playlist[0].comments.reverse();
       })
     }
@@ -347,7 +311,6 @@ angular.module('rain.weather', [])
           $scope.currentUser = 'Logged in as - ' + data.config.data.userName;
           $window.localStorage.userName = data.config.data.userName;
           $window.localStorage.compareSession = currentSession;
-          $window.localStorage.userId = data.config.data._id;
         });
         $scope.logInButton = 'display: none';
         $scope.logOutButton = '';
@@ -361,7 +324,6 @@ angular.module('rain.weather', [])
               $scope.currentUser = 'Logged in as - ' + update.data.userName;
               $window.localStorage.userName = update.data.userName;
               $window.localStorage.compareSession = update.config.data.value;
-              $window.localStorage.userId = update.config.data._id;
             });
             $scope.save = 'display: unset';
             $scope.logInButton = 'display: none';

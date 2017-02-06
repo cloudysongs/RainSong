@@ -20,10 +20,16 @@ app.use(express.static(__dirname + '/../client'));
 app.use('/api', routes);
 
 db.once('open', function() {
+  console.log('Connected to MongoDB');
+
+//  var port = process.env.PORT || 80;
+//  app.listen(port, function() {
+//    console.log('I am listening to port:', port);
+//    console.log('keys: ', 'AIzaSyBlZwWqIXAU8clA4CZOjo94dTe5HJol1ag', '3b12ada7c114c8c07bea47797cf3ab0a');
 
   require('letsencrypt-express').create({
  
-  server: 'staging',
+  server: 'https://acme-v01.api.letsencrypt.org/directory',
  
   email: 'sawyer.schumacher@gmail.com',
 
@@ -35,4 +41,4 @@ db.once('open', function() {
     
   }).listen(80,443);
  
-});
+})
